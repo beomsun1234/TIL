@@ -29,7 +29,9 @@ bitbucket은 sourcetree 와 JIRA를 개발한 회사인 Atlassian사 가 개발�
 
 
 git 호스팅 3대장인 github, bitbucket, gitlab에 대해 표로 비교해주신 분이 있었다(감사합니다)
-출저 https://m.blog.naver.com/dlwhdgur20/221006619001 
+
+
+출처 https://m.blog.naver.com/dlwhdgur20/221006619001 
 
 
 
