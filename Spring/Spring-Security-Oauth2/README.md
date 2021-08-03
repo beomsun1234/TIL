@@ -311,4 +311,15 @@ spring-session-jdbc 등록
       compile('org.springframework.session:spring-session-jdbc')
       
       -application.yml
-      spring.session.store-type=jdbc
+       session:
+        store-type: jdbc
+
+여기서 에러발생한다.. 
+
+      -application.yml
+       session:
+        store-type: jdbc
+        jdbc:
+          initialize-schema: always
+          
+테이블을 만들어 주지 않아서 발생한다고 한다.. https://stackoverflow.com/questions/53823174/how-to-initialize-schema-in-spring-session-with-jdbc (출저) 여기 보고 해결했다..
