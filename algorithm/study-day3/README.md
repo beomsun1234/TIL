@@ -1,12 +1,16 @@
 
 ## 그리디
+
  - 욕심쟁이 알고리즘 -> 뒷일 생각없이 당장 이득인 것을 선택
 
 ![그리디](https://user-images.githubusercontent.com/68090443/128174232-1f4af092-f9fd-431f-bede-e88dd4389785.PNG)
 
+
 ![그리디2](https://user-images.githubusercontent.com/68090443/128174680-73af60dd-e35c-4ff8-b2dd-55610edab9ef.PNG)
 
+
 ![그리디3](https://user-images.githubusercontent.com/68090443/128174714-328a2ce5-22de-4775-a050-8f587e748a3f.PNG)
+
 
 ![그리디4](https://user-images.githubusercontent.com/68090443/128174769-5a9e626a-88ba-4ae0-8882-8c1546efbb57.PNG)
 
@@ -19,6 +23,8 @@
 
 3. 구현한다.
 
+
+--------------------
 
 ## 스택
 
