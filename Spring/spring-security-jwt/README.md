@@ -1,13 +1,13 @@
 웹 보안은 기본적으로 요청하는 사용자를 식별하는 인증(Authenticate)과 인증된 사용자가 보호된 리소스에 접근할 권한이 있는지 확인하는 인가(Authorize)이 기본 바탕입니다.
 
-![screensh](./img/jwt.png)
+![jwt](https://user-images.githubusercontent.com/68090443/130323004-1be5ef58-e336-4675-9e12-fe9b33ea5e4a.PNG)
 
 ## JWT란? (Json Web Token)
 먼저 JWT는 JSON Web Token의 약자로 Json형태로 표현된 정보를 전달하는 하나의 방식으로, 토큰 자체에 모든 정보(토큰 기본정보, 전달할 정보, 검증됐다는 시그니쳐 정보 등)를 스스로 지니고 있다는 것이 큰 특징입니다. (자가 수용적, Self-Contained)
 웹 서버의 경우 헤더나 파라미터를 통해 손쉽게 넘길 수 있어 인증이 필요한 REST 서비스에서 주로 활용됩니다.
 
 ## 구조
-![screensh](./img/jwt구조.png)
+![jwt구조](https://user-images.githubusercontent.com/68090443/130323000-d08a7031-eafc-4484-b855-73b881fa6af5.PNG)
 - Header : 이 JWT가 어떤 방식으로, 어떤 알고리즘을 사용하여 토큰화 했는지 명시
 - Payload : 토큰에 사용자가 담고자 하는 정보를 담는 곳
 - Signature : 위 토큰이 유효한지 유효하지 않은지에 대한 정보를 가짐. 암호화에 사용되는 키 값은 서버에 저장해놓는다. 그리고 발행된 JWT 값이 서버에 들어왔을 때 두 값을 비교해서 올바른 JWT 토큰이 맞는지 확인한다.
