@@ -304,3 +304,139 @@ SELECT 절의 칼럼 수가 동일하고 SELECT 절의 동
         
         -CROSS JOIN : 곱집합(PRODUCT)
 
+
+
+### 2과목 틀린문제
+
+```37번```
+<br>
+오라클과 SQL Server에서의 INSERT, SELECT시 NULL 값 처리
+
+- 1 - INSERT INTO 서비스 VALUES('999','','2015-12-31');
+
+        오라클 
+        - 1번과 같이 공백이 입력됐을 경우 NULL로 입력됨 '' = null
+
+        SQL Server
+        - 1번과 같이 공백이 입력됐을 경우 공백으로 입력됨 '' = ''
+
+
+```35번```
+<br>
+NULL의 연산
+
+- NULL 값과의 연산은 NULL을 리턴한다.
+- NULL 값과의 비교연산은 FALSE을 리턴한다.
+- NULL은 특정값보다 크다, 작다 라고 표현할 수 없다.
+
+```29번```
+<br>
+UPDATE, CREATE 수행시 커밋 롤백에 대한 문제
+
+- 오라클
+  - DDL 문장 수행 후 자동으로 COMMIT을 수행한다(내부적으로 트랜젝션 종료).
+
+- SQL Sever
+  - DDL 문장 수행 후 자동으로 COMMIT을 수행하지 않는다.
+  
+        CREATE TABLE B (생략);
+        ROLLBACK;
+
+        - 오라클에서는 DDL 문장 수행 후 자동 커밋으로 트랜잭션을 종료시키므로 B테이블은 생성된다.
+
+        - SQL Server에서는 CREATE 문장도 트랜젝션의 범주에 포함된다. 그러므로 ROLLBACK 문장에 의해 B테이블이 생성되지 않는다.
+
+```26번```
+<br>
+DELETE, TRUNCATE, DROP 명령어에 대해 비교한 설명
+
+- DROP 
+   - DDL
+   - 롤백 불가능
+   - Auto Commit
+   - 테이블 정의 자체를 완전히 삭제함
+   
+- TRUNCATE
+   - DDL(일부 DML성격을 가짐) 
+   - 롤백 불가능
+   - Auto Commit
+   - 테이블을 최초 생성된 초기상태로만듬(껍데기만 존재)
+- DELETE
+  - DML
+  - Commit 이전 Rollback 가능
+  - 사용자 COMMIT
+  - 데이터만 삭제
+
+```23번```
+- 개발 프로젝트의 표준은 모든 삭제 데이터에 대한 로그를 남기는 것을 원칙, 개발팀에서 사용 용도가 없다고 판단한 테이블의 데이터를 삭제하는 가장 좋은 방법은?
+
+
+        정답 : DELETE FROM 테이블
+
+        TRUNCATE, DROP -> 로그를 남기지 않는다
+
+
+```2과목 19번```
+- ```Delete Action : Cascade, Set Null, Set Default, Restrict```
+
+    - Cascade : 마스터 삭제시 자식 같이 삭제
+    - Set Null : 마스터 삭제시 해당 자식 필드 Null
+    - Set Default : 마스터 삭제시 해당 자식 필드 Default 값으로 설정
+    - Restrict :  자식 테이블에 pk값이 없는 경우만 마스터 삭제허용
+    - No Action : 참조무결성을 위반하는 삭제/수정 액션을 취하지 않음
+
+- ```Inset Action : AutoMatic, Set Null, Set Default, Dependent```
+
+    - AutoMatic : 마스터 테이블에 pk가 없는 경우 마스터 pk를 생성후 자식 입력
+
+    - Set Null : 마스터 테이블에 pk가 없는 경우 자식을 외부키를 NULL 값으러 처리
+    - Set Default : 마스터 테이블에 pk가 없는 경우 자식을 외부키를 지정된 기본값으로 처리
+
+    - Dependent : 마스터 테이블에 PK가 존재할 때만 자식 입력허용
+
+```2과목 18번```
+- RENAME 테이블명 TO 변경할 테이블명
+
+```17번```
+ - 직원 테이블 외래키 제약조건이 ON DELETE CASCADE
+ - 부서 2개, 직원 1 -> 1번부서 , 직원 2,3 ->2번부서
+ - A번 조건 -> 직원 카운트 = 3
+ - B번 조건 -> 2번 부서 테이블 삭제
+ - C번 조건 -> 직원 카운트 = 1 이 된다.
+
+틀린 이유 : ON DELETE CASCADE 를 파악하지 못했다..
+
+
+ ```15번 제약조건에 대한 설명(맞았지만 조그 헷갈렸음)```
+ 
+ - 고유키로 지정된 모든 컬럼은 NULL값을 가질수없다. -> NULL값을 가질수 있다.
+
+```14번 - 외래키에 대한 설명```(맞았지만 헷갈렸다...)
+- 외래키는 널값을 가질수 없다-> 외래키는 널값을 가질수 있다.
+- 한 테이블에 하나만 존재해야 한다. -> 여러 개 존재할 수 있다.
+
+```13번```
+- 학생 테이블을 생성후 유효한 튜플을 넣었을때 결과 (학생테이블 - 학번(char(8) pk, 장학금 - integer))
+
+- 1.select count(*) from 학생
+- 2.select count(학번) from 학생
+
+- 정답: 1,2 번의 sql문장의 실행결과는 같다.(학번 컬럼이 pk이기에 널값이 없으므로)
+
+```7번 ALTER TABLE Oracle과 SQL 서버 비교 문제```
+
+- [오라클]
+
+        ALTER Table 테이블명 ALTER COLUMN (컬럼명1 VARCHAR(30) NOT NULL, 컬렴명2 DATE NOT NULL);
+
+- [SQL Server]
+
+        ALTER Table 테이블명 ALTER COLUMN 컬럼명1 VARCHAR(30) NOT NULL;
+
+        ALTER Table 테이블명 ALTER COLUMN 컬렴명2 DATE NOT NULL;
+
+```3번```
+- 다음 설명하는 SQL 명령어 종류는 무엇이냐
+- (커밋, 롤백, 세이브포인트)트랜잭션 제어어, 일부에서는 DCL로 분류
+
+정답 - TCL
