@@ -247,7 +247,181 @@
 
 ### ```WINDOW FUNCTION```
 - 분석함수(ANALYTIC FUNCTION) 
+  - CORR, COVAR_POP, COVAR_SAMP, STDDEV, STDDEV_POP, STDDEV_SAMP, VARIANCE, VAR_POP, VAR_SAMP, REGR_(LINEAR REGRESSION), REGR_SLOPE, REGR_INTERCEPT, REGR_COUNT, REGR_R2, REGR_AVGX, REGR_AVGY, REGR_SXX, REGR_SYY, REGR_SXY
 - 순위 함수(RANK FUNCTION)
+  - RANK, DENSE_RANK, ROW_NUMBER
+- 집계(AGGREGATE) 함수
+  - SUM, MAX, MIN, AVG, COUNT
+- 순서 관련 함수
+    - IRST_VALUE, LAST_VALUE, LAG, LEAD
+
+WINDOW FUNCTION SYNTAX
+
+ - WINDOW 함수에는 OVER 문구가 키워드로 필수 포함된다.
+
+        SELECT WINDOW_FUNCTION (ARGUMENTS) OVER ( [PARTITION BY 칼럼]] [ORDER BY 절] [WINDOWING 절] )
+        FROM 테이블 명;
+
+
+        - WINDOW_FUNCTION : 기존에 사용하던 함수도 있고, 새롭게 WINDOW 함수용으로 추가된 함수도 있다. - ARGUMENTS (인수) : 함수에 따라 0 ~ N개의 인수가 지정될 수 있다.
+
+        - PARTITION BY 절 : 전체 집합을 기준에 의해 소그룹으로 나눌 수 있다.
+
+        - ORDER BY 절 : 어떤 항목에 대해 순위를 지정할 지 ORDER BY 절을 기술한다.
+
+        - WINDOWING 절 : WINDOWING 절은 함수의 대상이 되는 행 기준의 범위를 강력하게 지정할 수 있다. ROWS는 물리적인 결과 행의 수를, RANGE는 논리적인 값에 의한 범위를 나타내는데, 둘 중의 하나를 선택해서 사용할 수 있다. 다만, WINDOWING 절은 SQL Server에서는 지원하지 않는다.
+
+
+- BETWEEN 사용 타입
+
+        ROWS | RANGE BETWEEN UNBOUNDED PRECEDING | CURRENT ROW | VALUE_EXPR PRECEDING/FOLLOWING AND UNBOUNDED FOLLOWING | CURRENT ROW | VALUE_EXPR PRECEDING/FOLLOWING
+
+- BETWEEN 미사용 타입
+
+        ROWS | RANGE UNBOUNDED PRECEDING | CURRENT ROW | VALUE_EXPR PRECEDING
+
+
+
+
+- 예제
+  - RANK , DENSE_RANK 함수
+
+
+            SELECT JOB, ENAME, SAL
+                , RANK( ) OVER (ORDER BY SAL DESC) RANK
+                , DENSE_RANK( ) OVER (ORDER BY SAL DESC) DENSE_RANK
+            FROM EMP; 
+
+            JOB       ENAME             SAL       RANK      DENSE_RANK
+            --------- ---------- ---------- -----------    -----------
+            PRESIDENT KING             5000          1          1
+            ANALYST   FORD             3000          2          2
+            ANALYST   SCOTT            3000          2          2
+            MANAGER   JONES            2975          4          3
+            MANAGER   BLAKE            2850          5          4
+            MANAGER   CLARK            2450          6          5
+            SALESMAN  ALLEN            1600          7          6
+            SALESMAN  TURNER           1500          8          7
+            CLERK     MILLER           1300          9          8
+            SALESMAN  WARD             1250         10          9
+            SALESMAN  MARTIN           1250         10          9
+            CLERK     ADAMS            1100         12         10
+            CLERK     JAMES             950         13         11
+            CLERK     SMITH             800         14         12
+
+
+
+    - ROW_NUMBER()
+
+      - ROW_NUMBER 함수
+            ROW_NUMBER 함수는 RANK나 DENSE_RANK 함수가 동일한 값에 대해서는 동일한 순위를 부여하는데 반해, 동일한 값이라도 고유한 순위를 부여한다.
+
+
+        
+            SELECT JOB, ENAME, SAL 
+                , RANK( ) OVER (ORDER BY SAL DESC) RANK
+                , ROW_NUMBER() OVER (ORDER BY SAL DESC) ROW_NUMBER
+            FROM EMP; 
+
+            JOB       ENAME             SAL       RANK ROW_NUMBER
+            --------- ---------- ---------- ---------- ----------
+            PRESIDENT KING             5000          1          1
+            ANALYST   FORD             3000          2          2
+            ANALYST   SCOTT            3000          2          3
+            MANAGER   JONES            2975          4          4
+            MANAGER   BLAKE            2850          5          5
+            MANAGER   CLARK            2450          6          6
+            SALESMAN  ALLEN            1600          7          7
+            SALESMAN  TURNER           1500          8          8
+            CLERK     MILLER           1300          9          9
+            SALESMAN  WARD             1250         10         10
+            SALESMAN  MARTIN           1250         10         11
+            CLERK     ADAMS            1100         12         12
+            CLERK     JAMES             950         13         13
+            CLERK     SMITH             800         14         14
+
+
+
+    - WINDOWING 절 예제
+        - ROWS 사용 예제 (아래 예제는 첫 번째 ROW부터 마지막 ROW까지의 합과(SAL1), 첫 번째 ROW부터 현재 ROW까지의 합(SAL2) 그리고 현재 ROW부터 마지막 ROW까지의 합(SAL3)을 출력하는 예제이다)
+
+        - ```ROWS : 물리적인 ROW 단위로 행 집합을 지정한다.```
+        - ```RANGE : 논리적인 상대번지로 행 집합을 지정한다.```
+        - ```BETWEEN ~ AND 절 : 윈도우의 시작과 끝 위치를 지정한다.```
+        - ```UNBOUNDED PRECEDING : PARTITION의 첫 번째 로우에서 윈도우가 시작한다.```
+        - ```UNBOUNDED FOLLOWING : PARTITION의 마지막 로우에서 윈도우가 시작한다.```
+        - ```CURRENT ROW : 윈도우의 시작이나 끝 위치가 현재 로우 이다.```
+
+                SELECT empno, ename, deptno, sal,
+                    SUM(sal) OVER(ORDER BY deptno, empno 
+                                ROWS BETWEEN UNBOUNDED PRECEDING 
+                                        AND UNBOUNDED FOLLOWING) sal1 -> 첫 번째 ROW부터 마지막 ROW까지의 급여 합계이다 ,
+
+                    SUM(sal) OVER(ORDER BY deptno, empno 
+                                ROWS BETWEEN UNBOUNDED PRECEDING 
+                                        AND CURRENT ROW) sal2 ->  첫 번째 ROW 부터 현재 ROW까지의 급여 합계이다,
+
+                    SUM(sal) OVER(ORDER BY deptno, empno 
+                                ROWS BETWEEN CURRENT ROW 
+                                        AND UNBOUNDED FOLLOWING) sal3 -> 현재 ROW부터 마지막 ROW까지 급여 합계이다.
+                FROM emp;
+                
+                
+                -- SAL1 : 첫 번째 ROW부터 마지막 ROW까지의 급여 합계이다. 
+                -- SAL2 : 첫 번째 ROW 부터 현재 ROW까지의 급여 합계이다. 
+                -- SAL3 : 현재 ROW부터 마지막 ROW까지 급여 합계이다.
+                EMPNO ENAME       DEPTNO        SAL       SAL1       SAL2       SAL3
+                ------ ------- ---------- ---------- ---------- ---------- ----------
+                7782 CLARK           10       2450      29025       2450      29025
+                7839 KING            10       5000      29025       7450      26575
+                7934 MILLER          10       1300      29025       8750      21575
+                7369 SMITH           20        800      29025       9550      20275
+                7566 JONES           20       2975      29025      12525      19475
+                7788 SCOTT           20       3000      29025      15525      16500
+                7876 ADAMS           20       1100      29025      16625      13500
+                7902 FORD            20       3000      29025      19625      12400
+                7499 ALLEN           30       1600      29025      21225       9400
+                7521 WARD            30       1250      29025      22475       7800
+                7654 MARTIN          30       1250      29025      23725       6550
+                7698 BLAKE           30       2850      29025      26575       5300
+                7844 TURNER          30       1500      29025      28075       2450
+                7900 JAMES           30        950      29025      29025        950
+
+
+
+        - RANGE 사용 예제
+            - 아래는 월별 금액 리스트를 출력하고, 직전 3개월 합계(AMT_PRE3)와 이후 3개월 합계(AMT_FOL3)를 함께 표시하는 예제이다.아래 예제에서는 7월 데이터가 없기 때문에 직전 3개월 합계(AMT_PRE3) 8월의 경우 6월,5월 두 달치만 누적된 것을 확인 할 수 있다.
+
+
+
+                    SELECT yyyymm
+                        , amt
+                        , SUM(amt) OVER(ORDER BY TO_DATE(yyyymm,'yyyymm')
+                                    RANGE BETWEEN INTERVAL '3' MONTH PRECEDING
+                                            AND INTERVAL '1' MONTH PRECEDING) amt_pre3
+
+                        , SUM(amt) OVER(ORDER BY TO_DATE(yyyymm,'yyyymm')
+                                    RANGE BETWEEN INTERVAL '1' MONTH FOLLOWING
+                                            AND INTERVAL '3' MONTH FOLLOWING) amt_fol3
+                    FROM test
+                    ;
+                    
+                    -- AMT_PRE3 : 직전 3개월 합계
+                    -- AMT_FOL3 : 이후 3개월 합계 
+
+                    YYYYMM           AMT   AMT_PRE3   AMT_FOL3
+                    --------- ---------- ---------- ----------
+                    200801           100                   900
+                    200802           200        100       1200
+                    200803           300        300       1500
+                    200804           400        600       1100
+                    200805           500        900       1400
+                    200806           600       1200       1700
+                    200808           800       1100       1200
+                    200809           900       1400        600
+                    200810           100       1700        500
+                    200811           200       1800        300
+                    200812           300       1200 
 
 
 <br>
