@@ -47,3 +47,11 @@
 |TRANS_ACCOUNT_NUM|CHAR|11||거래할 계좌|
 |ACCOUNT_CUR_BALANCE|NUMERIC|(13,0)||거래 후 잔액|
 |```ACCOUNT_NUM(FK)```|CHAR|11||내 계좌|
+
+
+
+------------
+
+
+![entity](https://user-images.githubusercontent.com/68090443/134672657-d7c8563c-02f0-4ce6-8107-58f9304774dc.PNG)
+
