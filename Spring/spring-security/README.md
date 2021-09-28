@@ -50,6 +50,10 @@ Credential(비밀번호): Resource에 접근하는 대상의 비밀번호
 ### Spring Security 처리 과정
 
 
+![spring-securtiy](https://user-images.githubusercontent.com/68090443/134900632-c87a22a4-82a1-42f2-8b9f-ab197902c53a.PNG)
+
+
+
 1. 로그인 요청 
 	
     - 자는 로그인 하기 위해 아이디와 비밀번호를 입력해서 로그인 요청을 하게 된다.(사용자 인증 요청)
@@ -99,6 +103,9 @@ Credential(비밀번호): Resource에 접근하는 대상의 비밀번호
 
 
 ### Spring Security 모듈
+
+
+![contextholder](https://user-images.githubusercontent.com/68090443/134900693-3999493a-f4b5-49aa-8f1e-8ea145cc7434.PNG)
 
 
 - SecurityContextHolder
