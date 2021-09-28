@@ -6,6 +6,9 @@
 - JPA를 사용하기 위해서는 JPA를 구현한 Hibernate, EclipseLink, DataNucleus 같은 ORM 프레임워크를 사용해야 한다.
 
 
+![jpa](https://user-images.githubusercontent.com/68090443/135080272-0a7cdf92-91ad-4d53-b0c0-1551f261b2ce.PNG)
+
+
 
 #### Hibernate란?
 
