@@ -59,3 +59,68 @@ JPA는 애플리케이션과 JDBC 사이에서 동작한다.
 ```JPA가 SQL을 직접 작성하지 않는다고 해서 JDBC API를 사용하지 않는다는 것은 아닙니다 Hibernate가 지원하는 메서드 내부에서는 JDBC API가 동작하고 있으며, 단지 개발자가 직접 SQL을 직접 작성하지 않을 뿐입니다```
 
 
+
+
+### - 저장
+
+
+위의 상속관계에서 Album 객체를 저장한다고 생각해보자. INSERT 쿼리가 두번 만들어져서 날라간다.
+
+    INSERT INTO ITEM ...
+
+    INSERT INTO ALBUM ...
+
+<br>
+
+    jpa.persist(album); 
+    
+ JPA persistant 객체에 Album 객체 저장하면. 알아서 INSERT 쿼리 두개 만들어서 넣는다. 단순하게 INSERT 쿼리 두벌 만들어서 DB에 넣는게 아니라 패러다임의 불일치 자체를 해결한다.알아서 두개 클래스에 다 넣어준다.
+
+
+### - 조회
+
+    jpa.find(Album.class, albumId);
+
+JPA를 통해서 Album 객체를 조회하게 되면, Item과 Album객체를 이쁘게 조인 쿼리를 날려서 가져오고, Album 객체를 반환한다.
+
+- JPA에게 PK값으로 find 요청
+- JPA는 SELECT query 생성
+- JDBC API를 통해 DB에 보내고 결과를 받음
+- ResultSet 매핑
+- 패러다임 불일치 해결
+
+
+
+## JPA를 왜 사용해야 하는가?
+
+- SQL 중심적인 개발에서 객체 중심으로 개발
+- 생산성
+
+JPA를 사용하는것은 마치 Java Collection에 데이터를 넣었다 빼는 것처럼 사용할 수 있게 만드는 것이다.
+
+
+      간단한 CRUD
+
+      저장 : jpa.persist(member)
+      조회 : Member member = jpa.find(memberId)
+      수정 : member.setName("변경할 이름")
+      삭제 : jpa.remove(member)
+
+
+- 유지보수
+
+기존 : 필드 변경시 모든 SQL을 수정해야 한다.
+
+        CRUD의 반복
+        자바객체를 SQL로 , SQL을 자바 객체로 
+        변환하는 과정의 반복
+        예를들어 회원의 나이정보를 추가하고자
+        한다. Member클래스에 나이 필드 추가와 
+        insert,select, update등 모든 쿼리에 나이 
+        정보를 추가한다.
+        
+```JPA는 필드만 추가하면 된다. SQL은 JPA가 처리하기 때문에 손댈 것이 없다.```
+
+- Object와 RDB간의 패러다임 불일치 해결
+
+쿼리를 JPA가 만들어 주기 때문에 Object와 RDB간의 패러다임 불일치를 해결할 수 있다.
