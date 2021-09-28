@@ -55,6 +55,10 @@ ORM이란 객체와 DB의 테이블이 매핑을 이루는 것을 말합니다. 
 
 ## JPA 동작 과정
 
+
+![동작과정](https://user-images.githubusercontent.com/68090443/135084318-5d46c485-29ef-4cfc-b52d-a5a76ce6ebec.PNG)
+
+
 JPA는 애플리케이션과 JDBC 사이에서 동작한다.
 개발자가 JPA를 사용하면 JPA내부에서 JDBC API를 사용하여 SQL을 호출하여 DB와 통신한다.
 개발자가 직접 JDBC API를 쓰는 것이 아니다.
@@ -64,7 +68,10 @@ JPA는 애플리케이션과 JDBC 사이에서 동작한다.
 
 
 
+
 ### - 저장
+
+![과계](https://user-images.githubusercontent.com/68090443/135084467-dc25c4a0-6486-4a95-8b25-9f17f58137d1.PNG)
 
 
 위의 상속관계에서 Album 객체를 저장한다고 생각해보자. INSERT 쿼리가 두번 만들어져서 날라간다.
@@ -78,6 +85,15 @@ JPA는 애플리케이션과 JDBC 사이에서 동작한다.
     jpa.persist(album); 
     
  JPA persistant 객체에 Album 객체 저장하면. 알아서 INSERT 쿼리 두개 만들어서 넣는다. 단순하게 INSERT 쿼리 두벌 만들어서 DB에 넣는게 아니라 패러다임의 불일치 자체를 해결한다.알아서 두개 클래스에 다 넣어준다.
+ 
+ 
+ ![저장](https://user-images.githubusercontent.com/68090443/135084513-9a1e195e-e190-4122-824f-163980d87b52.PNG)
+
+
+- Member 엔티티를 분석한다.
+- INSERT SQL을 생성한다.
+- JDBC API를 사용하여 SQL을 DB에 날린다.
+ 
 
 
 ### - 조회
@@ -85,6 +101,11 @@ JPA는 애플리케이션과 JDBC 사이에서 동작한다.
     jpa.find(Album.class, albumId);
 
 JPA를 통해서 Album 객체를 조회하게 되면, Item과 Album객체를 이쁘게 조인 쿼리를 날려서 가져오고, Album 객체를 반환한다.
+
+
+![조회](https://user-images.githubusercontent.com/68090443/135084695-4fc70f11-18ea-4bb2-8356-b2b2f9e1b18f.PNG)
+
+
 
 - JPA에게 PK값으로 find 요청
 - JPA는 SELECT query 생성
