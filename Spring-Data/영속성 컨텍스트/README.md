@@ -468,6 +468,7 @@ em.remove(memberA)를 호출하는 순간 memberA는 영속성 컨텍스트에�
 
 
 
+---
 
 
 ### 플러시
