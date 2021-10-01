@@ -1,4 +1,5 @@
 ## JPA
+
 - JPA란 자바 ORM 기술에 대한 API 표준 명세를 의미한다.
 - 자바 진영의 ORM 기술 표준
 - 이 JPA를 Spring에서 쓸수 있도록 한 것이 Spring Data JPA 이다.
