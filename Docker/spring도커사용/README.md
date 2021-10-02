@@ -137,7 +137,10 @@ springboot
 
     docker images
 
-[사진]
+
+
+![도커이미지](https://user-images.githubusercontent.com/68090443/135713341-8ed34522-18e1-434d-8136-b193f1b507cc.PNG)
+
 
 이미지가 잘 생성된 것을 확인 할 수 있다.
 
