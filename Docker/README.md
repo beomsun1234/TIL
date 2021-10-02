@@ -13,7 +13,8 @@
 
 ### 가상머신
 
-[사진]
+![가상머신](https://user-images.githubusercontent.com/68090443/135714727-ae93f09d-f6d8-4832-ac4e-71cf532e1c91.PNG)
+
 
 가상머신은 하이퍼바이저를 이용해 Guest OS를 만들어낸다. 예를 들어, 윈도우 운영체제를 메인으로 쓰고 있다면 이는 Host OS가 되는 것이고 이 위에 Ubuntu를 가상머신위에 구동시킨다면 이는 Guest OS가 되는 것이다. Guest OS를 구동시키려면 Host OS에서 자원을 일부 사용해야 한다. 따라서 Host OS도 느려지고, Guest OS도 성능이 그리 좋은 편은 아니다.
 
@@ -21,7 +22,9 @@
 
 ### 도커
 
-[사진]
+
+![도커](https://user-images.githubusercontent.com/68090443/135714731-bce08997-e1a2-4e17-9829-77faf4a0052f.PNG)
+
 
 가상머신가 무엇이 다를까? 도커는 그림과 같이 Geust OS를 설치하지 않으며 Docker 이미지에 서버 운영에 필요한 프로그램과 라이브러리만 격리해서 설치할 수 있고, OS 자원은 호스트와 공유한다. 이렇게 되면서 이미지 용량이 대폭 줄어든다.
 
@@ -49,7 +52,9 @@
 
 ### 이미지(Image)
 
-[사진]
+
+![도커이미지](https://user-images.githubusercontent.com/68090443/135714739-2e36b89d-d8c1-4648-af46-b3f916667112.PNG)
+
 
 - 이미지는 필요한 프로그램과 라이브러리, 소스를 설치한 뒤 파일로 만든 것이며. 이 이미지를 저장소에 올리고, 받을 수 있다. 
 
@@ -66,7 +71,8 @@
 
 ### 컨테이너(Container)
 
-[사진]
+![컨테이너](https://user-images.githubusercontent.com/68090443/135714741-38684b20-c4f9-472a-a3a0-ea2e2fa03b47.PNG)
+
 
 - 이미지를 실행한 상태 
 
