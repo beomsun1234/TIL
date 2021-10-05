@@ -83,7 +83,7 @@ JPA를 사용한다고 가정해보자. 간단한 쿼리라면 인터페이스�
 
 ---
 
-## (코드보기)[https://github.com/beomsun1234/Study/tree/master/Spring/hello-querydsl]
+## [실습코드](https://github.com/beomsun1234/Study/tree/master/Spring/hello-querydsl)
 
 
 
