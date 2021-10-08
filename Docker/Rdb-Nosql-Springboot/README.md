@@ -169,7 +169,7 @@ application-db.yml에서 db연결 url을 localhost라 설정했다.
 
 ----
 
-현재 db와 애플리케이션을 실행하기 위해 아래와 같이 docker run 이라는 명령어를 3번이나 작성해야하는 번거로움이 있다....
+### 현재 db와 애플리케이션을 실행하기 위해 아래와 같이 docker run 이라는 명령어를 3번이나 작성해야하는 번거로움이 있다....
 
     docker run 마리아db이미지
     
@@ -236,7 +236,7 @@ docker-compose.yml이 작성된 폴더로 들어가 아래 명령어를 실행�
 
 ---
 
-실행중인 컨테이너를 종료하면 데이터가 모두 삭제 된다. 데이터를 저장하기 위해서 docker-compose에 volume을 설정해보자
+### 실행중인 컨테이너를 종료하면 데이터가 모두 삭제 된다. 데이터를 저장하기 위해서 docker-compose에 volume을 설정해보자
 
 [더 알아보려면 클릭](https://github.com/beomsun1234/TIL/tree/main/Docker/Volume)
 
@@ -307,3 +307,37 @@ mariadb 데이터와 mongodb 데이터를 저장하기위해 2개의 volume을 �
     volumes:
       rdb:
       nosql:
+
+
+-----
+
+### Mariadb 한글깨짐
+
+[한글깨짐해결법](https://github.com/beomsun1234/TIL/tree/main/Docker/MariadbDB%EC%82%AC%EC%9A%A9)을 통해 한글깨짐을 해결했다면 영구적으로 설정하기 위해 hangle이라는 volume을 하나 더 설정해주자!
+
+docker-compose.yml에 volumes 부분
+
+     volumes:
+      	rdb:
+      	nosql:
+	hangle:
+
+
+docker-compose.yml에 mariadb 설정부분
+
+	mariadb:
+          container_name: mariadb
+          image: mariadb
+          ports:
+            - 3306:3306
+          volumes:
+	    - hangle:/etc/mysql
+            - rdb:/var/lib/mysql
+          environment:
+            - MYSQL_ROOT_PASSWORD=1234
+            - MYSQL_USER=root
+            - MYSQL_DATABASE=mydb
+
+
+hangle이라는 볼륨을 사용할시 컨테이너를 종료해도 한글깨짐을 계속 수정해야하는 번거로움을 줄여준다.
+
