@@ -311,16 +311,17 @@ mariadb 데이터와 mongodb 데이터를 저장하기위해 2개의 volume을 �
 
 -----
 
-### Mariadb 한글깨짐
+### Mariadb 한글 깨짐
 
 [한글깨짐해결법](https://github.com/beomsun1234/TIL/tree/main/Docker/MariadbDB%EC%82%AC%EC%9A%A9)을 통해 한글깨짐을 해결했다면 영구적으로 설정하기 위해 hangle이라는 volume을 하나 더 설정해주자!
 
 docker-compose.yml에 volumes 부분
 
-     volumes:
-      	rdb:
-      	nosql:
-	hangle:
+
+	volumes:
+		rdb:
+		nosql:
+		hangle:
 
 
 docker-compose.yml에 mariadb 설정부분
@@ -331,12 +332,13 @@ docker-compose.yml에 mariadb 설정부분
           ports:
             - 3306:3306
           volumes:
-	    - hangle:/etc/mysql
+	    	- hangle:/etc/mysql
             - rdb:/var/lib/mysql
           environment:
             - MYSQL_ROOT_PASSWORD=1234
             - MYSQL_USER=root
             - MYSQL_DATABASE=mydb
+
 
 
 hangle이라는 볼륨을 사용할시 컨테이너를 종료해도 한글깨짐을 계속 수정해야하는 번거로움을 줄여준다.
