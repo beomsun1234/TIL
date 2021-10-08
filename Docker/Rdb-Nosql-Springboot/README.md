@@ -43,7 +43,7 @@ mariadb에서는 testrdb라는 데이터베이스를 만들었다. 잘 생성됐
     // bash 쉘 실행
     docker exec -it mariadb bash
     
-    //mongo db 접속
+    //mariadb 접속
     mysql -u root -p 
     
     //비밀번호입력
