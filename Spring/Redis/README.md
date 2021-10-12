@@ -88,8 +88,9 @@ redis와 connection을 생성해주는 객체
 
 우선 캐쉬를 사용하기 위해
 
-Springboot에 @EnableJpaAuditing 어노테이션을 등록해서 캐시를 사용하겠다고 알려주자
+Springboot에 @EnableCaching 어노테이션을 등록해서 캐시를 사용하겠다고 알려주자
 
+ 	@EnableCaching
     @EnableJpaAuditing
     @SpringBootApplication
     public class OhouApplication {
