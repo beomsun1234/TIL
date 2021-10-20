@@ -26,7 +26,6 @@ application.yml
 
     spring:
       profiles: mac
-        include: oauth2, db
 
 
 application-win.yml
