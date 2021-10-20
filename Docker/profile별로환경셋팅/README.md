@@ -17,7 +17,7 @@ dockerfile
 application.yml
 
     spring:
-      profiles:
+      profiles: 
         active: win
         include: oauth2, db
 
@@ -25,8 +25,7 @@ application.yml
     ---
 
     spring:
-      profiles:
-        active: mac
+      profiles: mac
         include: oauth2, db
 
 
