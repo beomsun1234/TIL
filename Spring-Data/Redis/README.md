@@ -1,4 +1,4 @@
-# 좌충우돌 Redis 사용기(단순연결 및 사용법 나중에 자세히 다뤄보자)
+# 좌충우돌 Redis 사용기
 
 ## Redis란?
 Redis는 In-memory 기반의 NoSQL DBMS로서 Key-Value의 구조를 가지고있다. 또한 속도가 빠르고 사용이 간편하다. 캐싱,세션관리,pub/sub 메시징 처리등에 사용된다.
@@ -88,8 +88,9 @@ redis와 connection을 생성해주는 객체
 
 우선 캐쉬를 사용하기 위해
 
-Springboot에 @EnableJpaAuditing 어노테이션을 등록해서 캐시를 사용하겠다고 알려주자
+Springboot에 @EnableCaching 어노테이션을 등록해서 캐시를 사용하겠다고 알려주자
 
+ 	@EnableCaching
     @EnableJpaAuditing
     @SpringBootApplication
     public class OhouApplication {
