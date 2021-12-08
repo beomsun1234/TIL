@@ -33,4 +33,3 @@ def solution(numbers):
     print(ret)
     return len(ret)
     
---------
