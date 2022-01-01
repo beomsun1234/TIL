@@ -112,9 +112,12 @@ PV설정에서 정말 많이 트러블슈팅이 발생한 것 같다. 기존에 
 
     kubectl get storageclasses.storage.k8s.io  명령어를 통해 스토리지 클래스 리소스 확인해보았더니 
 
-[사진] 이있었다..
 
-pv를 설정하지 않고 pvc만 설정해주고
+![프로비저닝](https://user-images.githubusercontent.com/68090443/147855009-2347b91b-d94f-472a-adb0-32d2a5af9a5d.PNG)
+
+스토리지가 있기에 
+
+pv를 설정하지 않고 pvc만 설정해주면 된다
 
 hello-volume-claim.yaml
 
