@@ -244,3 +244,29 @@ prefer-ip-address는 서비스의 호스트 이름이 아닌 IP 주소를 Eureka
       type: LoadBalancer
 
 각 클라이언트에 prefer-ip-address: true 설정 한 이후 문제 없이 잘 동작한다!! 
+
+
+## 결과
+
+파드 확인
+
+![k8smsa프로젝트1](https://user-images.githubusercontent.com/68090443/148034505-60430f7b-7aed-49c0-abda-1e55e7684f79.PNG)
+
+
+주문 요청 POST / localhost:8000/order/product/{id}/order
+
+
+![주문요청](https://user-images.githubusercontent.com/68090443/148034605-30e2083e-096f-44f0-9977-3ff2ca25db05.PNG)
+
+주문이 요청될 경우 두 서비스에서 발생하는 일
+
+order-service 
+
+![주문시](https://user-images.githubusercontent.com/68090443/148034744-c3452baf-75ac-4aff-adea-7911a91382c5.PNG)
+
+
+product-service
+
+
+![재고감소](https://user-images.githubusercontent.com/68090443/148034847-37b2389b-08d6-4ac8-90b5-c045f1ed24c3.PNG)
+
