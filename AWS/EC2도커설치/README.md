@@ -54,3 +54,21 @@ docker-compose.yml 작성 후 기존에 도커를 사용할 때 사용했던 명
 	docker-compose up -d
 
 위 와같이 변경하니 동작한다... 
+
+
+## 트러블슈팅
+	
+	docker ps
+
+위 명령어를 작성하고 실행할 경우 
+
+
+	Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/json": dial unix /var/run/docker.sock: connect: permission denied 
+
+권한 관려 에러가 발생한다
+
+이럴 경우 
+
+	chmod 666 /var/run/docker.sock
+
+위 명령어로 권한을 설정해주자!
