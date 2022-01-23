@@ -112,5 +112,6 @@ proxy 실행
 ![gcp](https://user-images.githubusercontent.com/68090443/150668585-b2c01267-d4e6-4e6d-b294-9f478efbdc37.PNG)
 
 
-![gcp대시보드](https://user-images.githubusercontent.com/68090443/150668592-e35be038-61d8-4617-b9fb-86eeb0780495.PNG)
+
+![gcp대시보드2](https://user-images.githubusercontent.com/68090443/150668662-6df07b49-e701-4fcf-8aee-8e27b54ea2e7.png)
 
