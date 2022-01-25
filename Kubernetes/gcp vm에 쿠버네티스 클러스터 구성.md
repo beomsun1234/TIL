@@ -115,3 +115,38 @@ proxy 실행
 
 ![gcp대시보드2](https://user-images.githubusercontent.com/68090443/150668662-6df07b49-e701-4fcf-8aee-8e27b54ea2e7.png)
 
+
+## 트러블 슈팅
+
+쿠버네티스 싱글노드 클러스터를 구성 한 후 nginx를 nodePort를 사용해서 외부에서의 접속은 성공했지만 공개IP:80 에서 띄우고 싶었다.. service type을 loadbalancer로 변경해 주고 배포했지만 EXTERNAL-IP가 계속 pending 상태에서 머물러 있었다.... stackoverflow에서 EXTERNAL-IP를 직접 명시해 주라는 글을 읽고 수정해 보았다.. 아래는 수정한 nginx_svc.yaml이다.
+
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: nginx-service
+    spec:
+      ports:
+      - port: 80
+        targetPort: 80
+      selector:
+        app: nginx
+      type: LoadBalancer
+      externalIPs:
+        - [gcp vm 내부 ip]
+ 
+ 수정 후 배포했지만 여전히 공개ip:80 에서 동작하지 않고 공개ip:nodeport 에서만 동작했다.. loadbalancer타입 말고 type을 클러스터 ip로 설정 하고  EXTERNAL-IP를 설정 하는 방식으로 수정해 보았다. 아래는 수정한 nginx-svc.yaml이다
+ 
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: nginx-service
+    spec:
+      ports:
+        - port: 80
+          targetPort: 80
+      selector:
+        app: nginx
+      externalIPs:
+        - [gcp vm 내부 ip]
+        
+이렇게 수정하니 공개ip:80에서 접속할 수 있었다.. 한 3일 정도 삽질한 것 같다.....
