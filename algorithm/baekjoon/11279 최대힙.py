@@ -47,3 +47,4 @@ for i in range(N):
         else: 
             print(heapq.heappop(nums)[1])
             
+            
