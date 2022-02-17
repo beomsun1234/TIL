@@ -82,82 +82,82 @@ docker hub연동을 위해 'Username with password' 타입의 Credential을 추�
 
 ### 파이프라인 스크립트
 
-pipeline {
-        agent any
-        environment{
-            DOCKERHUB_CREDENTIALS=credentials('docker-hub')
-        }
-        stages {
-            stage('github clone') {
-                steps {
-                    git branch: 'main',
-                        credentialsId: 'github',
-                        url: 'https://github.com/beomsun1234/e-commerce-msa.git'
-                }
-            }
+	pipeline {
+		agent any
+		environment{
+		    DOCKERHUB_CREDENTIALS=credentials('docker-hub')
+		}
+		stages {
+		    stage('github clone') {
+			steps {
+			    git branch: 'main',
+				credentialsId: 'github',
+				url: 'https://github.com/beomsun1234/e-commerce-msa.git'
+			}
+		    }
 
-            stage('build') {
-                steps {
-                    sh """
-                        cd /var/lib/jenkins/workspace/msa/order-service
-                        chmod +x gradlew
-                        ./gradlew clean build 
-                        echo 'order-service build sucess'
-                    """
-                    sh """
-                        cd /var/lib/jenkins/workspace/msa/product-service
-                        chmod +x gradlew
-                        ./gradlew clean build
-                        echo 'product-service build sucess'
-                    """
-                }
-            }
-            stage('docker build') {
-                steps {
-                    sh """
-                        cd /var/lib/jenkins/workspace/msa/order-service
-                        sudo docker build -t beomsun22/order-service:${BUILD_NUMBER} .
-                        echo 'docker jenkins-order build sucess'
-                    """
-                    sh """
-                        cd /var/lib/jenkins/workspace/msa/product-service
-                        sudo docker build -t beomsun22/product-service:${BUILD_NUMBER} .
-                        echo 'docker jenkins-product build sucess'
-                    """
-                }
-            }
-            stage('login'){
-                steps{
-                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                }
-            }
-             stage('docker push') {
-                steps {
-                    sh 'docker push beomsun22/order-service:${BUILD_NUMBER}'
-                    echo 'docker order-service:v${BUILD_NUMBER} push sucess'
-                    sh 'docker push beomsun22/product-service:${BUILD_NUMBER}'
-                    echo 'docker product-service:v${BUILD_NUMBER} push sucess'
-                }
-            }
-            stage('deploy') {
-                steps {
-                    sh """
+		    stage('build') {
+			steps {
+			    sh """
+				cd /var/lib/jenkins/workspace/msa/order-service
+				chmod +x gradlew
+				./gradlew clean build 
+				echo 'order-service build sucess'
+			    """
+			    sh """
+				cd /var/lib/jenkins/workspace/msa/product-service
+				chmod +x gradlew
+				./gradlew clean build
+				echo 'product-service build sucess'
+			    """
+			}
+		    }
+		    stage('docker build') {
+			steps {
+			    sh """
+				cd /var/lib/jenkins/workspace/msa/order-service
+				sudo docker build -t beomsun22/order-service:${BUILD_NUMBER} .
+				echo 'docker jenkins-order build sucess'
+			    """
+			    sh """
+				cd /var/lib/jenkins/workspace/msa/product-service
+				sudo docker build -t beomsun22/product-service:${BUILD_NUMBER} .
+				echo 'docker jenkins-product build sucess'
+			    """
+			}
+		    }
+		    stage('login'){
+			steps{
+			    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		    }
+		     stage('docker push') {
+			steps {
+			    sh 'docker push beomsun22/order-service:${BUILD_NUMBER}'
+			    echo 'docker order-service:v${BUILD_NUMBER} push sucess'
+			    sh 'docker push beomsun22/product-service:${BUILD_NUMBER}'
+			    echo 'docker product-service:v${BUILD_NUMBER} push sucess'
+			}
+		    }
+		    stage('deploy') {
+			steps {
+			    sh """
 
-                        sudo ssh root@[worker ip] 'export KUBECONFIG=/etc/kubernetes/admin.conf'
-                        sudo ssh root@[worker ip] 'kubectl get pod'
-                        sudo ssh root@[worker ip] '/home/beomsun159/./test.sh aaa bbb'
-                        sudo ssh root@[worker ip] '/home/beomsun159/./rolling_update.sh order-service order-service beomsun22/order-service:${BUILD_NUMBER}'
-                        sudo ssh root@[worker ip] '/home/beomsun159/./rolling_update.sh product-service product-service beomsun22/product-service:${BUILD_NUMBER}'
-                    """
-                }
-            }
-        }
-        post {
-            always{
-                sh 'docker logout'
-            }
-        }
-    }
+				sudo ssh root@[worker ip] 'export KUBECONFIG=/etc/kubernetes/admin.conf'
+				sudo ssh root@[worker ip] 'kubectl get pod'
+				sudo ssh root@[worker ip] '/home/beomsun159/./test.sh aaa bbb'
+				sudo ssh root@[worker ip] '/home/beomsun159/./rolling_update.sh order-service order-service beomsun22/order-service:${BUILD_NUMBER}'
+				sudo ssh root@[worker ip] '/home/beomsun159/./rolling_update.sh product-service product-service beomsun22/product-service:${BUILD_NUMBER}'
+			    """
+			}
+		    }
+		}
+		post {
+		    always{
+			sh 'docker logout'
+		    }
+		}
+	    }
 
 ### 트러블슈팅
 
