@@ -43,7 +43,7 @@ def check_go(dirs):
                     if dirs[i-1] != dirs[i-j]:
                         return False
                     # 이미 경사로를 놓았을 경우
-                    if visited[i-j]:
+                    if visited[i-j]:tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
                         return False 
                     visited[i-j] = True
                 
