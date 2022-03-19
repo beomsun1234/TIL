@@ -33,7 +33,7 @@ def get_dif_win_lionPoint(lion_point,appech_point):
         dif = lion_point - appech_point
         return dif
     return 0
-    
+     
 #낮은 점수부터 중복 조합을 통해 경기당 얻을 수 있는 점수를 구한다.
 def dfs(pick,n,lion_shots,info,idx):
     global answer
