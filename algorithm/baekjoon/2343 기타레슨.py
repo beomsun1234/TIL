@@ -29,3 +29,5 @@ while left<=right:
     ans=min(ans,mid)
     right=mid-1
 print(ans)
+
+ 
