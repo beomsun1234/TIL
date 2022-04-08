@@ -42,3 +42,4 @@ for h in range(1,H+1):
     elif min_destory_cnt == destory_cnt:
         section_cnt +=1
 print(min_destory_cnt, section_cnt)
+ 
