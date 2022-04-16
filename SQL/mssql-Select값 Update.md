@@ -1,0 +1,6 @@
+## Select 문을 통해 UPDATE
+
+    UPDATE TABLE_A
+       SET TABLE_A.PRICE = TABLE_B.PRICE 
+      FROM TABLE_A AS A, TABLE_B AS B
+     WHERE TABLE_A.PID = B.PID
