@@ -33,4 +33,18 @@
     //소문자로 변환(LOWER)
     SELECT LOWER('ABC') -> abc
     
+### REPLACE
+    // 대상 문자열에서 문자열A에 해당되는 모든 항목을 찾아 문자열B로 바꾸기
+    // REPLACE('대상 문자열', '문자열A, '문자열B')
+    SELECT REPLACE('ABC','A',a') -> aBC
     
+### REVERSE
+    //문자열을 반대로 리턴
+    SELECT REVERSE('ABC') ->  CBA
+    
+### LTRIM, RTRIM
+    //LTRIM 왼쪽 공백없애기
+    SELECT LTRIM('  ABC') -> ABC
+    
+    //RTRIM 오른쪽 공백 없애기
+    SELECT RTRIM('ABC  ')  -> ABC
