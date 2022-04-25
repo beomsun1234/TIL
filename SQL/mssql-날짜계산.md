@@ -29,3 +29,14 @@ SELECT DATEADD(날짜형식, 값, 날짜)
     // 해당 달의 마지막 일자 구하기
     SELECT DATEADD(DAY, -1, DATEADD(MONTH, 1, '2022-04-01'))
     -> '2022-04-30 00:00:00'
+    
+    // 년 계산 (YEAR)
+    SELECT DATEADD(YEAR, -1, '2022-04-25') AS [1년전] 
+    SELECT DATEADD(YEAR, 1, '2022-04-25')  AS [1년후]
+    
+    // 최근 30일 전
+    SELECT DATEADD(DAY, -30, GETDATE())
+    
+    
+    
+    
