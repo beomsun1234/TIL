@@ -1,0 +1,7 @@
+## mssql while문 사용하기
+
+
+    WHILE [조건문]
+    BEGIN
+      [로직]
+    END
