@@ -47,4 +47,4 @@
     SELECT LTRIM('  ABC') -> ABC
     
     //RTRIM 오른쪽 공백 없애기
-    SELECT RTRIM('ABC  ')  -> ABC
+    SELECT RTRIM('ABC  ')  -> ABC 
