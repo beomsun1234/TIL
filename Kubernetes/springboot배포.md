@@ -102,51 +102,50 @@ Deployment와 Service 설정을 정의한 demo-app-deployment.yaml, demo-app-ser
 ## 최종 yaml
 
 
-# Service
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: demo-app-service
-spec:
-  ports:
-    - port: 8080
-      targetPort: 8080
-  selector:
-    app: demo-app-service
-  type: LoadBalancer
-
----
-
-## Deployment
-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-    name: demo-app-service
-    spec:
-    replicas: 3
-    selector:
-        matchLabels:
-        app: demo-app-service
-    strategy:
-        type: RollingUpdate
-        rollingUpdate:
-        #kubectl set image deployment <디플로이먼트 이름> <컨테이너 이름>=<새 이미지>
-        #kubectl set image deployment -f <디플로이먼트 파일> <컨테이너 이름>=<새 이미지>
-        maxSurge: 1
-        maxUnavailable: 1
-    template:
+        # Service
+        apiVersion: v1
+        kind: Service
         metadata:
-        labels:
-            app: demo-app-service
+          name: demo-app-service
         spec:
-        containers:
-            - name: hello-k8s-app-service
-            image: beomsun22/k8s-app
-            ports:
-                - containerPort: 8080
-            imagePullPolicy: Always
+          ports:
+            - port: 8080
+              targetPort: 8080
+          selector:
+            app: demo-app-service
+          type: LoadBalancer
+
+        ---
+
+        ## Deployment
+
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+        name: demo-app-service
+        spec:
+        replicas: 3
+        selector:
+            matchLabels:
+            app: demo-app-service
+        strategy:
+            type: RollingUpdate
+            rollingUpdate:
+            #kubectl set image deployment <디플로이먼트 이름> <컨테이너 이름>=<새 이미지>
+            #kubectl set image deployment -f <디플로이먼트 파일> <컨테이너 이름>=<새 이미지>
+            maxSurge: 1
+            maxUnavailable: 1
+        template:
+            metadata:
+            labels:
+                app: demo-app-service
+            spec:
+            containers:
+                - name: hello-k8s-app-service
+                image: beomsun22/k8s-app
+                ports:
+                    - containerPort: 8080
+                imagePullPolicy: Always
 
 
 
