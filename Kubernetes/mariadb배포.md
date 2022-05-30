@@ -62,27 +62,27 @@ service와 delployment yaml을 작성해보자
 
 
 ## 최종 hello-mariadb.yaml
+    
+    # Service
 
-# Service
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: mariadb
-spec:
-  ports:
-    - port: 3306
-      targetPort: 3306
-      nodePort: 30001
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: mariadb
+    spec:
+      ports:
+        - port: 3306
+          targetPort: 3306
+          nodePort: 30001
 
 
-  selector:
-    app: mariadb
-  type: NodePort
+      selector:
+        app: mariadb
+      type: NodePort
 
----
+    ---
 
-## Deployment
+    ## Deployment
     apiVersion: apps/v1
     kind: Deployment
     metadata:
