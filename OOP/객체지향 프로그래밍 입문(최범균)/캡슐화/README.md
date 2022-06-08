@@ -70,9 +70,30 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
 
 ### 캡슐화를 위한 규칙
 
-"""Tell, Don’t Ask"""
+```1. Tell, Don’t Ask```
 
     데이터를 달라하지 말고 해달라고 하기
 
 
+기존
 
+    if(account.getMembership() == REGULAR && account.getExpDate().isAfter(now())){
+          ...정회원 기능
+    }
+   
+캡슐화 후
+
+    if(account.hasRegularPermission()){
+            ..정회원 기능
+        }
+        
+기존 코드는 Account의 membership 값을 가져와 조건을 판단하고있다. 이보다는 캡슐화 후 코드 처럼 membership을 가지고 있는 객체인 Account에 처리를 맡겨 처리해라!!
+
+
+'''2. Demeter's Law'''
+
+    노출 범위를 제한하기 위해 객체의 모든 메서드는 다음에 해당하는 메서드만을 호출해야 한다.
+ 
+- 메서드에서 생성한 객체의 메서드만 호출
+- 파라미터로 받은 객체의 메서드만 호출
+- 필드로 참조하는 객체의 메서드만 호출
