@@ -99,12 +99,23 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
 - 필드로 참조하는 객체의 메서드만 호출
 
 디미터법칙 위반
-
-    account.getServiceDate().isAfter(now())
-
+    
+    ex1)  account.getServiceDate().isAfter(now())
+    
+    ex2)  Date date = account.getExpDate();
+          date.isAfter(now());
     
 개선
 
-    account.isExpired()
+    1.  account.isExpired()
     
+    2.  account.isValid(now())
 
+개선된 코드와 같이 객체의 메서드만 호출하는것 이다.
+
+
+## 정리
+
+캡슐화 - 기능의 구현을 외부에 감춤
+
+캡슐화를 통해 기능을 사용하는 코드에 영향을 주지 않고(또는 최소화) 내부 구현을 변경할 수 있는 유연함을 가지게 된다.
