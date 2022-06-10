@@ -119,3 +119,35 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
 캡슐화 - 기능의 구현을 외부에 감춤
 
 캡슐화를 통해 기능을 사용하는 코드에 영향을 주지 않고(또는 최소화) 내부 구현을 변경할 수 있는 유연함을 가지게 된다.
+
+# 캡슐화 연습
+
+## 캡슐화 연습1
+
+    public AuthResult authenticate(String id, String pw) {
+      Member mem = findOne(id);
+      if (mem == null) return AuthResult.NO_MATCH;
+
+      if (mem.getVerificationEmailStatus() != 2) {
+          return AuthResult.NO_EMAIL_VERIFIED;
+      }
+      
+      if (passwordEncoder.isPasswordVaild(mem.getPassword(), pw, mem.getId())) {
+          return AuthResult.SUCCESS;
+      }
+      return AuthResult.NO_MATCH;
+    }
+    
+위 코드는 인증과 관련된 코드로 아이디와 암호를 매개변수로 받으며 다음과정을 거친다.
+
+1. 아이디에 해당하는 맴버가 없으면 AuthResult.NO_MATCH를 리턴
+2. 맴버의 verificationEmailStatus() 값이 2가 아니라면 AuthResult.NO_EMAIL_VERIFIED를 리턴
+3. 유효한 암호이면 AuthResult.SUCCESS를 리턴
+
+위 코드에 캡슐화를 적용해보자!
+
+위 코드를 캡슐화하기 위해 적용할 수 있는 규칙은 'Tell, Don't Ask' 다.(데이터를 달라하지 말고 해달라고 하기)
+
+    if (member.getVerificationEmailStatus() != 2) {
+          return AuthResult.NO_EMAIL_VERIFIED;
+    }
