@@ -163,4 +163,3 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
         
         
     
-
