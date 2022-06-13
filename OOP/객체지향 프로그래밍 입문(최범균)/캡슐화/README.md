@@ -45,7 +45,7 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
 ### 캡슐화를 한다면??
 
 정회원인지 검사하는 기능을 하나의 객체로 묶는다.
-
+    
         public class Account {
 
             private MemberShip memberShip;
@@ -122,7 +122,7 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
 
 # 캡슐화 연습
 
-## 캡슐화 연습1
+## 캡슐화 연습 1
 
     public AuthResult authenticate(String id, String pw) {
       Member member = findOne(id);
@@ -146,20 +146,140 @@ ex) 아래 코드는 membership이 REGULAR이면서 회원의 만료일이 현�
 
 위 코드를 캡슐화하기 위해 적용할 수 있는 규칙은 'Tell, Don't Ask' 다.(데이터를 달라하지 말고 해달라고 하기)
     
-    //캡슐화 전
+    //캡슐화 진행 할 부분 코드
     if (member.getVerificationEmailStatus() != 2) {
           return AuthResult.NO_EMAIL_VERIFIED;
     }
+   
+    //캡슐화 후 코드(member에서 결과를 가져오도록 수정)  
+    public class Member {
     
-    //캡슐화 후
+      private int verificationEmailStatus;
+        
+      ...
+        
+      public boolean isEmailVerified(){
+          return verificationEmailStatus == 2;
+      }
+        
+      ...
+  
+    }
     
-        public class Member {
-            ...
-            public boolean hasRegularPermission(){
-                return memberShip == REGULAR && expDate.isAfter(LocalDate.now());
-            }
-            ...
-        }
+    public AuthResult authenticate(String id, String pw) {
+      Member member = findOne(id);
+      if (member == null) return AuthResult.NO_MATCH;
+      
+      //캡슐화 적용
+      if (member.isEmailVerified) {
+          return AuthResult.NO_EMAIL_VERIFIED;
+      }
+      
+      if (passwordEncoder.isPasswordVaild(member.getPassword(), pw, member.getId())) {
+          return AuthResult.SUCCESS;
+      }
+      return AuthResult.NO_MATCH;
+    }
         
         
+## 캡슐화 연습 2
+마틴 파울러의 리팩토링 책에 나오는 예제이다.
+
+Movie
+
+   
+    public class Movie {
+      //최신 영화 NEW_RELEASE, 일반 REGULAR
+      public static int REGULAR = 0;
+      public static int NEW_RELEASE = 1;
+      private int priceCode;
+
+      public int getPriceCode() {
+        return priceCode;
+      }
+      ...
+    }
+
+Rental
+
+    public class Rental {
+      private Movie movie;
+      private int daysRented;
+      
+      //최신 영화를 하루 이상 대여시 2포인트 획득 아니면 1포인트 회득.
+      public int getFrequentRenterPoints() {
+        if (movie.getPriceCode() == Movie.NEW_RELEASE && daysRented > 1)
+          return 2;
+        else
+          return 1;
+      }
+      ...
+    }
     
+위 코드에 캡슐화를 적용하면
+
+    movie.getPriceCode() == Movie.NEW_RELEASE 
+
+Rental에서 Movie 객체에게 priceCode를 달라하고 있다 이 부분을 Movie에게 해달라고하자!
+    
+Movie
+
+    public class Movie {
+      //최신 영화 NEW_RELEASE, 일반 REGULAR
+      public static int REGULAR = 0;
+      public static int NEW_RELEASE = 1;
+      private int priceCode;
+
+      public boolen isNewRelease() {
+        return priceCode == NEW_RELEASE;
+      }
+      ...
+    }
+
+Rental
+
+      public int getFrequentRenterPoints() {
+        if (movie.isNewRelease() && daysRented > 1)
+          return 2;
+        else
+          return 1;
+      }
+      ...
+    }
+
+위 코드를 보면 먼가 아쉽다... 조건 전체를 Movie에 맡겨보자!
+
+Movie
+
+    public class Movie {
+      //최신 영화 NEW_RELEASE, 일반 REGULAR
+      public static int REGULAR = 0;
+      public static int NEW_RELEASE = 1;
+      private int priceCode;
+
+      public int getFrequentRenterPoints(daysRented ) {
+        if (if priceCode == NEW_RELEASE && daysRented > 1)
+          return 2;
+        else
+          return 1;
+      }
+      ...
+    }
+    
+Rantal
+
+    public class Rental {
+      private Movie movie;
+      private int daysRented;
+      
+      //최신 영화를 하루 이상 대여시 2포인트 획득 아니면 1포인트 회득.
+      public int getFrequentRenterPoints(){
+        movie.getFrequentRenterPoints(daysRented)
+      }
+      ...
+    }
+    
+이런식으로 캡슐화를 하면 포인트를 구하는 공식이 바뀐 경우 Movie 객체의 getFrequentRenterPoints의 코드만 변경하면 된다. 
+
+
+    데이터를 들고 있는 쪽에 기능을 추가하며, 기능에 필요한 다른 값을 파라미터로 받는 예시이다!
