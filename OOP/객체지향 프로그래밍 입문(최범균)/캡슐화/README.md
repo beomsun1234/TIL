@@ -283,3 +283,140 @@ Rantal
 
 
     데이터를 들고 있는 쪽에 기능을 추가하며, 기능에 필요한 다른 값을 파라미터로 받는 예시이다!
+
+## 캡슐화 연습 3
+
+Timer
+
+    public class Timer {
+      public long startTime;
+      public long stopTime;
+    }
+    
+로직 실행시간 측정 코드
+
+    Timer t = new Timer();
+    t.startTime = System.currentTimeMillis();
+
+    ...
+
+    t.stopTime = System.currentTimeMillis(); 
+    long elaspedTime = t.stopTime - t.startTime; 
+    
+위 코드는 Timer 클래스에 데이터를 가져다 사용하는 절차 지향적으로 작성되어있다. 위 코드에 캡슐화를 적용해 보자!
+
+로직을 보면 시작시간을 구하고, 종료시간을 구하고, 마지막으로 소요시간을 구한다. 해당 기능을 Timer 객체로 묶어보자!
+
+Timer
+
+    public class Timer {
+      public long startTime;
+      public long stopTime;
+      
+      public void start(){
+        this.startTime = System.currentTimeMillis();
+      }
+      
+      public void stop(){
+        this.stopTime = System.currentTimeMillis();
+      }
+      
+      public long elapsedTime(TimeUnit unit){
+        switch(unit){
+            case MILLISECOND;
+                return stop - startTime;
+            .....
+        }
+      }
+    }
+    
+데이터 클래스로 사용되던 Timer가 기능을 제공하는 객체로 바뀌었다. Timer를 캡슐화함으로써 측정 시간 단위를 millisecond에서 nanosecond로 변경하더라도 외부의 코드는 변경하지 않고 내부의 구현을 변경하면된다.
+ 
+ 
+## 캡슐화 연습 4
+
+데이터를 가지고 와서 판단한 후, 판단의 결과로 데이터를 다시 바꾸는 코드
+
+    public void verifyEmail(String token) {
+      Member mem = findByToken(token);
+      if (mem == null) throw new BadTokenException();
+
+      if (mem.getVerificationEmailStatus() == 2) {
+        throw new AlreadyVerifiedException();
+      } else {
+        mem.setVerificationEmailStatus(2);
+      }
+      // .. 수정사항 DB 반영
+    }
+    
+위 코드는 token으로 Member를 조회하고 조회한 Member의 VerificationEmailStatus가 2면 예외처리하고 아닐 경우 verificationEmailStatus 값을 2로 설정 후 db에 저장한다.
+
+해당 코드를 캡슐화 해보자!
+
+
+Member
+
+    public class Member {
+    
+      private int verificationEmailStatus;
+        
+      ...
+        
+      public boolean isEmailVerified(){
+          return verificationEmailStatus == 2;
+      }
+        
+      ...
+    }
+    
+verifyEmail 로직
+
+    public void verifyEmail(String token) {
+      Member mem = findByToken(token);
+      if (mem == null) throw new BadTokenException();
+
+      if (mem.isEmailVerified()) {
+        throw new AlreadyVerifiedException();
+      } else {
+        mem.setVerificationEmailStatus(2);
+      }
+      // .. 수정사항 DB 반영
+    }
+    
+객체의 값을 달라고하는 부분은 캡슐화 했지만 코드의 구조는 개선되지 않았다... 이러한 코드는 조건문을 통으로 캡슐화했을 때 개선될 가능성이 높아진다. 
+
+코드를 개선해보자!
+
+Member
+
+    public class Member {
+    
+      private int verificationEmailStatus;
+        
+      ...
+      
+      public void verifyEmail(){
+        if (isEmailVerified()) {
+            throw new AlreadyVerifiedException();
+        } else {   
+            this.verificationEmailStatus = 2;
+        }
+      }
+        
+      public boolean isEmailVerified(){
+          return verificationEmailStatus == 2;
+      }
+      ...
+    }
+    
+verifyEmail 로직
+
+
+    public void verifyEmail(String token) {
+      Member mem = findByToken(token);
+      if (mem == null) throw new BadTokenException();
+
+      mem.verifyEmail();
+      // .. 수정사항 DB 반영
+    }
+    
