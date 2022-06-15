@@ -77,23 +77,23 @@ IotTimer 객체를 Timer 타입과 Rechargeable 타입에 할당하여 각 타�
 
 사진에 EmailNotifier, SMSNotifier, KakaoNotifier 클래스의 공통점은 Notifier이다. 이를 아래의 과정으로 추상화한다.
 
-  1.Notifier 인터페이스를 만든다.(상위타입 도출)
-  2.Notifier를 상속한 구현 클래스(EmailNotifier, SMSNotifier, KakaoNotifier)를 만든다. (추상화 타입과 구현 타입 상속으로 연결)
+    1.Notifier 인터페이스를 만든다.(상위타입 도출)
+    2.Notifier를 상속한 구현 클래스(EmailNotifier, SMSNotifier, KakaoNotifier)를 만든다. (추상화 타입과 구현 타입 상속으로 연결)
 
 
 #### 타입 추상화 사용
 
 콘크리트 클래스에서 추상 타입을 도출하면 추상 타입을 이용한 프로그래밍이 가능하다.
 
-  Notifier notifier = getNotifier(...);
-  notifier.notify(someNoti);
-  
+    Notifier notifier = getNotifier(...);
+    notifier.notify(someNoti);
+
 추상 타입은 구현을 감춘다. 기능의 구현이 아닌 의도를 더 잘 드러낸다.
 
 ex)
 
-  Notifier notifier = getNotifier(...);
-  notifier.notify(someNoti);
+    Notifier notifier = getNotifier(...);
+    notifier.notify(someNoti);
 
 위 코드는 Notifier 타입으로 getNotifier() 를 통해 객체를 꺼내옴으로써 알림을 보내겠다는 의도를 잘 드러낸다.
 
@@ -107,51 +107,51 @@ ex)
 
 아래는 처음 요구사항에 대한 코드이다.
 
-  //주문 취소시 SMS 알림 전송
-  private SmsSender smsSender;
+      //주문 취소시 SMS 알림 전송
+      private SmsSender smsSender;
 
-  public void cancel(String ono) {
-    ...주문 취소 처리
+      public void cancel(String ono) {
+        ...주문 취소 처리
 
-    smsSender.sendSms(...);
-  }
+        smsSender.sendSms(...);
+      }
 
 두번째 요구사항이 들어왔다. '...씨 Kakao 알림이 가능하면 Kakao로 알림 전송해 주세요~'
 
 아래는 다음 요구사항을 추가한 코드이다.
 
-  private SmsSender smsSender;
-  private KakaoPush kakaoPush;
+      private SmsSender smsSender;
+      private KakaoPush kakaoPush;
 
-  public void cancel(String ono) {
-    ... 주문 취소 처리
+      public void cancel(String ono) {
+        ... 주문 취소 처리
 
-    if (pushEnabled) {
-      kakaoPush.push(...);
-    } else {
-      smsSender.sendSms(...);
-    }
-  }
+        if (pushEnabled) {
+          kakaoPush.push(...);
+        } else {
+          smsSender.sendSms(...);
+        }
+      }
 
 마지막 요구사항 - '항상 이메일 알림 전송해주세요~'
 
 아래는 마지막 요구사항을 추가한 코드이다.
 
-  private SmsSender smsSender;
-  private KakaoPush kakaoPush;
-  private MailService mailSvc;
+      private SmsSender smsSender;
+      private KakaoPush kakaoPush;
+      private MailService mailSvc;
 
-  public void cancel(String ono) {
-    ... 주문 취소 처리
+      public void cancel(String ono) {
+        ... 주문 취소 처리
 
-    if (pushEnabled) {
-      kakaoPush.push(...);
-    } else {
-      smsSender.sendSms(...);
-    }
-    mailSvc.sendMail(...);
+        if (pushEnabled) {
+          kakaoPush.push(...);
+        } else {
+          smsSender.sendSms(...);
+        }
+        mailSvc.sendMail(...);
 
-  }
+      }
 
 위 예제 처럼 요구사항 변경에 따른 주문취소 코드도 함께 변경된다.
 
@@ -159,67 +159,67 @@ ex)
 
 공통점을 도출하면
 
-    sms전송         추상화   
-    카카오톡 보냄   ------>    통지
-    이메일 발송
+      sms전송         추상화   
+      카카오톡 보냄   ------>    통지
+      이메일 발송
 
 도출한 추상타입 사용
 
-  public void cancel(String ono) {
-    ... 주문 취소 처리
-    Notifier notifier = getNotifier(...);
-    notifier.notify(...);
-  }
-  
-  private Notifier getNotifier(...){
-    if(pushEnabled) {
-      return new KakaoNotifier();
+    public void cancel(String ono) {
+      ... 주문 취소 처리
+      Notifier notifier = getNotifier(...);
+      notifier.notify(...);
     }
-    else {
-      return new SmsNotifier();
+
+    private Notifier getNotifier(...){
+      if(pushEnabled) {
+        return new KakaoNotifier();
+      }
+      else {
+        return new SmsNotifier();
+      }
     }
-  }
   
 Notifier 객체를 이용해 알림을 보낸다는 의도를 명확하게 전달하고 getNotifier()를 이용해 상황에 맞는 알림 구현체를 생성했다. 이제 요구사항이 들어와도 getNotifier()만 수정하면 된다.
 
 사용할 대상 접근도 추상화 해보자! 
 
-  private Notifier getNotifier(...){
-    if(pushEnabled) {
-      return new KakaoNotifier();
+    private Notifier getNotifier(...){
+      if(pushEnabled) {
+        return new KakaoNotifier();
+      }
+      else {
+        return new SmsNotifier();
+      }
     }
-    else {
-      return new SmsNotifier();
-    }
-  }
   
 위 코드를 추상화하여 다형성을 적용할 수 있다.
 
-  public void cancel(String ono) {
-    ... 주문 취소 처리
-    Notifier notifier = NotifierFactory.instance().getNotifier(...);
-    notifier.notify(...);
-  }
+    public void cancel(String ono) {
+      ... 주문 취소 처리
+      Notifier notifier = NotifierFactory.instance().getNotifier(...);
+      notifier.notify(...);
+    }
 
 
 NotifierFactory 인터페이스
 
-  public interface NotifierFactory {
-    Notifier getNotifier(...);
+    public interface NotifierFactory {
+      Notifier getNotifier(...);
 
-    static NotifierFactory instance() {
-      return new DefaultNotifierFactory();
+      static NotifierFactory instance() {
+        return new DefaultNotifierFactory();
+      }
     }
-  }
 
 NotifierFactory 인터페이스를 상속한 DefaultNotifierFactory 클래스
 
-  public class DefaultNotifierFactory implements NotifierFactory {
-    public Notifier getNotifier(...) {
-      if (pushEnabled) return new KakaoNotifier();
-      else return new SmsNotifier();
+    public class DefaultNotifierFactory implements NotifierFactory {
+      public Notifier getNotifier(...) {
+        if (pushEnabled) return new KakaoNotifier();
+        else return new SmsNotifier();
+      }
     }
-  }
 
 DefaultNotifierfactory 클래스는 NotifierFactory 인터페이스의 구현 클래스이다.
 
