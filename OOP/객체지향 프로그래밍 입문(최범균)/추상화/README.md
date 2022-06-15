@@ -180,6 +180,62 @@ ex)
     }
   }
   
-Notifier 객체를 이용해 알림을 보낸다는 의도를 명확하게 전달하고 getNotifier()를 이용해 상황에 맞는 알림 구현체를 생성했다.
-이제 요구사항이 들어와도 getNotifier()만 수정하면 된다.
+Notifier 객체를 이용해 알림을 보낸다는 의도를 명확하게 전달하고 getNotifier()를 이용해 상황에 맞는 알림 구현체를 생성했다. 이제 요구사항이 들어와도 getNotifier()만 수정하면 된다.
+
+사용할 대상 접근도 추상화 해보자! 
+
+  private Notifier getNotifier(...){
+    if(pushEnabled) {
+      return new KakaoNotifier();
+    }
+    else {
+      return new SmsNotifier();
+    }
+  }
+  
+위 코드를 추상화하여 다형성을 적용할 수 있다.
+
+  public void cancel(String ono) {
+    ... 주문 취소 처리
+    Notifier notifier = NotifierFactory.instance().getNotifier(...);
+    notifier.notify(...);
+  }
+
+
+NotifierFactory 인터페이스
+
+  public interface NotifierFactory {
+    Notifier getNotifier(...);
+
+    static NotifierFactory instance() {
+      return new DefaultNotifierFactory();
+    }
+  }
+
+NotifierFactory 인터페이스를 상속한 DefaultNotifierFactory 클래스
+
+  public class DefaultNotifierFactory implements NotifierFactory {
+    public Notifier getNotifier(...) {
+      if (pushEnabled) return new KakaoNotifier();
+      else return new SmsNotifier();
+    }
+  }
+
+DefaultNotifierfactory 클래스는 NotifierFactory 인터페이스의 구현 클래스이다.
+
+NotifierFactory 인터페이스는 알림 방식을 지정하는 기능과 알림 방식 구현 클래스(DefaultNotifierfactory)를 반환한다.
+
+
+#### 추상화는 의존 대상이 변경하는 시점에 진행
+
+- 추상화 -> 추상 타입 증가 -> 복잡도 증가
+
+- 아직 존재하지 않는 기능에 대한 추상화는 주의! -> 잘못된 추상화 가능성이 있고, 복잡도만 증가
+
+- 실제 변경 및 확장이 발생할 때 추상화 시도
+
+#### 추상화를 잘 하려면
+
+- 구현을 한 이유가 무엇 때문인지 생각하기
+
 
