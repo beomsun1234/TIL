@@ -120,6 +120,13 @@ A가 B에 의존하고 B는 C 그리고 C는 다시 A에 의존하고 있다. �
 
 ## DI
 
+DI란?? 
+
+    DI는 의존성 주입을 의미하며 객체가 다른 객체를 사용하기 위해서 본인의 내부 로직에서 외부 객체에 대한 인스턴스를 생성하는 것이 아닌, 외부로부터 인스턴스를 주입받아 사용하는 것을 의미(외부에서 의존 객체를 주입).
+
+    DI는 생성자 주입과 필드주입이 존재하며, 대체로 외부에서 변경이 가능한 생성자 주입을 사용하는 것을 권고
+
+
 ### 의존 객체를 직접 생성하면??
 
 생성 클래스가 바뀌면 의존하는 코드도 바뀌게 된다(추상화에서 언급).
@@ -247,6 +254,38 @@ ex)
     }
 
 테스트를 진행할 때, UserRepository를 의존하고 있을 때 실제 DB와 연결하는 Repository가 아닌 MemoryUserRepository를 설정을 통해 테스트를 진행 할 수 있다.
+
+
+생성자 주입방식(interface를 통해 확장성을 가지는 예)
+
+    class Zoo {
+      private final Animal animal;
+
+      public Study(Animal animal){
+        this.animal = animal;
+      }
+    }
+
+BigAnimal 이라는 animal을 implements한 클래스가 있다고 가정하면 
+
+Zoo 에서는 Animal이라는 존재만 알고 있어도 BigAnimal이라는 구현체를 받아서 사용할 수 있게 된다.
+
+    Animal bigAnimal = new BigAnimal();
+    Zoo zoo = new Zoo(bigAnimal);
+    .....
+
+반대로 Zoo클래스 내부에서 의존 객체인 Animal을 생성할 경우
+
+    class Zoo {
+      private final Animal animal;
+
+      public Zoo(){
+        this.animal = new BigAnimal();
+        ....
+      }
+    }
+
+Zoo는 Animal을 implements한 모든 구현체를 직접 Zoo안에서 수정해야 하는 불편함을 겪게 된다.
 
 
 DI를 습관처럼 사용하기
