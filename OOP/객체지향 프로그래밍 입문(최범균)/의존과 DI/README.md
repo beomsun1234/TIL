@@ -191,15 +191,63 @@ ex) : 스프링 프레임워크
       }
     }
 
+사용 코드
+
+    //초기하
+    ctx = new AnnotationConfigApplicationContext(config.class);
+    
+    //사용할 객체 구함
+    ScheduleService scheduleService = ctx.getBean(ScheduleService.class);
+    
+    //사용
+    scheduleService.getSchedule(...);
+
+
 스프링은 위와 같이 설정을 통해 의존을 할 대상을 설정하고, 그것을 초기화하고 사용하게 된다.
 
+스프링에서 가장 권장하는 방법은 생성자 주입이다.
 
-### DI의 장점
+ex)
 
-- 의존 대상이 바뀌면 조립기(설정)만 변경하면 된다.
+    @Service
+    public class TestService {
+
+        private TestRepository testRepository;
+
+        public TestService(TestRepository testRepository){
+            this.testRepository = testRepository;
+        }
+    }
+
+## DI의 장점
+
+### 의존 대상이 바뀌면 조립기(설정)만 변경하면 된다.
 
 [사진]
 
 위 코드에서도 볼 수 있듯이, OrderService가 의존하고 있는 Notifier가 바뀌더라도 조립기의 코드만 변경하면 된다.
 
-- 의존하는 객체 없이 대역 객체를 사용하여 테스트가 가능해진다
+### 의존하는 객체 없이 대역 객체를 사용하여 테스트가 가능해진다
+
+메서드를 이용한 주입방식(setter 주입)
+
+    private MemoryUserRepository userRepo = new MemoryUserRepository()
+    private ScheduleService svc = new ScheduleService();
+
+    @BeforeEach
+    public void init() {
+      svc.setUserRepository(userRepo);
+    }
+
+    @Test
+    public void givenUser_noCheckPoint_then_getExpectedSchedule() {
+      userRepo.addUser("1", new User(...));
+      Schedule schedule = svc.getSchedule("1");
+      assertEquals(EXPECTED, schedule.getType());
+    }
+
+테스트를 진행할 때, UserRepository를 의존하고 있을 때 실제 DB와 연결하는 Repository가 아닌 MemoryUserRepository를 설정을 통해 테스트를 진행 할 수 있다.
+
+
+DI를 습관처럼 사용하기
+- 의존 객체는 주입받도록 코드를 작성하는 습관을 들이자
