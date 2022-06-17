@@ -92,5 +92,67 @@ ex) ArrayList를 상속받은 Container 클래스
  
  상위클래스의 메소드를 사용할 경우 가용량이 줄지 않아 무한정 컨테이너에 넣게된다..
  
+
  
  ## 조립
+
+- 상속의 단점 해결 방법
+- 여러 객체를 묶어서 더 복잡한 기능을 제공
+- 보통 필드로 다른 객체를 참조하는 방식으로 조립 또는 객체를 필요 시점에 생성/구함
+
+ex) 암호화 기능이 필요하다면 암호화 기능을 제공하는 클래스를 상속받아서 구현하는 것이 아니고 필드로 객체를 참조하여 조립
+
+        public class FlowController {
+            private Encryptor encryptor = new Encryptor(); // 필드로 조립
+
+            public void process() {
+                ...
+                byte[] encryptedData = encryptor.encrypt(data);
+                ...
+            }
+        }
+        
+        
+조립을 통한 기능 재사용
+
+ex) 클래스를 상속받아서 구현한 방법
+
+        public Container extends ArrayList<Luggage> {
+            private int maxSize;
+            private int currentSize;
+
+            .....
+
+            public void put(Luggage lug) throws NotEnoughSpaceException {
+                if (!canContain(lug)) throw new NotEnoughSpaceException();
+                super.add(lug);
+                currentSize += lug.size();
+            }
+
+            .......
+
+        }
+        
+ex) 필드로 객체를 참조하여 조립한 방법
+
+        public Container {
+            private int maxSize;
+            private int currentSize;
+            private List<Luggage> luggages = new ArrayList();
+            
+            .....
+            public void put(Luggage lug) throws NotEnoughSpaceException {
+                if (!canContain(lug)) throw new NotEnoughSpaceException();
+                luggages.add(lug);
+                currentSize += lug.size();
+            }
+
+            .......
+
+        }
+
+
+상속보다는 조립(Composition over inheritance)
+
+     - 상속하기에 앞서 조립으로 풀 수 없는지 검토
+     - 진짜 하위 타입인 경우에만 상속 사용
