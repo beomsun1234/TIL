@@ -67,7 +67,7 @@ HTTP 프로토콜은 Stateless Protocol이므로 REST 역시 무상태성을 갖
 
 - REST API 메시지가 의도하는 바를 명확하게 나타내므로 의도하는 바를 쉽게 파악할 수 있다.
 
-- 서버와 클라이언트의 역활을 명확하게 분리한다. (Server : 자원 존재 / Client : 자원 요청!)
+- 서버와 클라이언트의 역활을 명확하게 분리하여 의존도를 낮출 수 있다. (Server : 자원 존재 / Client : 자원 요청!)
 
 
 ### REST 단점
@@ -79,9 +79,14 @@ HTTP 프로토콜은 Stateless Protocol이므로 REST 역시 무상태성을 갖
 - 구형 브라우저가 아직 제대로 지원해주지 못하는 부분이 존재한다
 
 ### REST가 필요한 이유
+
+이젠 웹 서버에서 웹 브라우저, 안드로이드, IOS 등 다양한 멀티 플랫폼에서 통신을 지원할 수 있어야 한다. 이에 필요한 아키텍처로 REST가 통용되기 시작했으며, 다양한 클라이언트를 대응할 수 있게 되었다. 
+
 - 애플리케이션 분리 및 통합
-- 
+
 - 최근의 서버 프로그램은 다양한 브라우저와 안드로이폰, 아이폰과 같은 모바일 디바이스에서도 통신을 할 수 있어야 한다.(다양한 클라이언트의 등장)
+
+
 
 ### REST 구성요소
 
@@ -89,7 +94,7 @@ HTTP 프로토콜은 Stateless Protocol이므로 REST 역시 무상태성을 갖
 
 - 모든 자원에 고유한 ID가 존재하고, 이 자원은 Server에 존재한다.
 
-- 자원을 구별하는 ID는 'user/:user_id' 와 같은 HTTP URI다.
+- 자원을 구별하는 ID는 'users/:user_id' 와 같은 HTTP URI다.
 
 - Client는 URI를 이용해서 자원을 지정하고 해당 자원의 상태(정보)에 대한 조작을 Server에 요청한다.
 
@@ -126,6 +131,66 @@ REST API란??
 
 - HTTP 표준을 기반으로 구현하므로, HTTP를 지원하는 프로그램 언어로 클라이언트, 서버를 구현할 수 있다.
 
+
+### REST API 설계
+
+|CRUD|HTTP verbs|Route|
+|------|---|---|
+|resource 들의 목록을 표시|GET|/resource|
+|resource 하나의 내용을 표시|GET|/resource/:id|
+|resource 를 생성|POST|/resource|
+|resource 를 수정|PUT|/resource/:id|
+|resource 를 삭제|DELETE|/resource/:id|
+
+#### 설계 규칙
+
+- '/'는 계층 관계를 나타냄
+- URL 마지막 문자에는 ‘/’ 포함 X
+- URL이 길어지면 ‘-’(하이픈)으로 가독성 높임
+- '_'(밑줄)은 URL에 사용 X
+- URL 경로는 소문자 사용
+- 파일 확장자는 URI에 포함 X → Accept Header 활용
+
+
+#### Resource 
+
+- 동사보다 명사, 대문자보다 소문자
+- 객체 인스턴스, DB : 단수 명사
+- 서버 및 클라이언트 리소스 : 복수 명사
+
+
+#### 응답코드
+
+    1xx : 전송 프로토콜 수준의 정보 교환
+    2xx : 클라어인트 요청이 성공적으로 수행됨
+    3xx : 클라이언트는 요청을 완료하기 위해 추가적인 행동을 취해야 함
+    4xx : 클라이언트의 잘못된 요청
+    5xx : 서버쪽 오류로 인한 상태코드
+
+
+
+
 ### RESTful 이란?
+
+- REST 원리를 따르는 시스템은 RESTful이란 용어로 지칭된다.
+ 
+- REST API를 제공하는 웹 서비스를 RESTful하다고 말할 수 있다. 설계 규칙에 맞게 통용되는 일관된 컨벤션을 유지하며 API의 이해도를 높여주는 것이 중요하다.
+
+### RESTful의 목적
+
+- 이해하기 쉽고 사용하기 쉬운 REST API를 만드는 것
+- RESTful한 API를 구현하는 근본적인 목적이 성능 향상에 있는 것이 아니라 일관적인 컨벤션을 통한 API의 이해도 및 호환성을 높이는 것이 주 동기이다.
+
+#### RESTful 하지 못한 경우
+
+- CRUD 기능을 모두 POST로만 처리하는 API
+- route에 resource, id 외의 정보가 들어가는 경우 (/users/updateEmail)
+
+
+
+### Reference
+
+- https://gmlwjd9405.github.io/2018/09/21/rest-and-restful.html
+- https://github.com/beomsun1234/tech-interview-for-developer/blob/master/Web/REST%20API.pptx
 
 
