@@ -150,3 +150,20 @@ ex) 클라이언트에 이미지 파일을 보내는 과정을 생각해보자!
 
 동작 과정
 
+- 1. Web Server는 웹 브라우저 클라이언트로부터 HTTP 요청을 받는다.
+- 2. Web Server는 클라이언트의 요청(Request)을 WAS에 보낸다.
+- 3. WAS는 관련된 Servlet을 메모리에 올린다.
+- 4. WAS는 web.xml을 참조하여 해당 Servlet에 대한 Thread를 생성한다. (Thread Pool 이용)
+
+- 5. HttpServletRequest와 HttpServletResponse 객체를 생성하여 Servlet에 전달한다.
+  - 5-1. Thread는 Servlet의 service() 메서드를 호출한다.
+  - 5-2. service() 메서드는 요청에 맞게 doGet() 또는 doPost() 메서드를 호출한다.
+  - protected doGet(HttpServletRequest request, HttpServletResponse response)
+ 
+- 6. doGet() 또는 doPost() 메서드는 인자에 맞게 생성된 적절한 동적 페이지를 Response 객체에 담아 WAS에 전달한다.
+- 7. WAS는 Response 객체를 HttpResponse 형태로 바꾸어 Web Server에 전달한다.
+- 8. 생성된 Thread를 종료하고, HttpServletRequest와 HttpServletResponse 객체를 제거한다.
+
+
+[참고자료1](https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html)
+[참고자료2]([https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html](https://github.com/gyoogle/tech-interview-for-developer/blob/master/Web/Web%20Server%EC%99%80%20WAS%EC%9D%98%20%EC%B0%A8%EC%9D%B4.md))
