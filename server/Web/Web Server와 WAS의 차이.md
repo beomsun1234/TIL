@@ -171,5 +171,8 @@ ex) 클라이언트에 이미지 파일을 보내는 과정을 생각해보자!
 - 8. 생성된 Thread를 종료하고, HttpServletRequest와 HttpServletResponse 객체를 제거한다.
 
 
+### 래퍼런스
+
 [참고자료1](https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html)
-[참고자료2]([https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html](https://github.com/gyoogle/tech-interview-for-developer/blob/master/Web/Web%20Server%EC%99%80%20WAS%EC%9D%98%20%EC%B0%A8%EC%9D%B4.md))
+
+[참고자료2](https://github.com/gyoogle/tech-interview-for-developer/blob/master/Web/Web%20Server%EC%99%80%20WAS%EC%9D%98%20%EC%B0%A8%EC%9D%B4.md)
