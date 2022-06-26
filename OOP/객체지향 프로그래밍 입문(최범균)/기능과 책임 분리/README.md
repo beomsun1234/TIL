@@ -53,16 +53,35 @@ ex)
 ### 계산 분리
 
 
+![기능책임1](https://user-images.githubusercontent.com/68090443/175808835-cfdafeb1-fc52-4b09-8e5b-2931b1b2e56c.PNG)
+
+
+포인트를 계산하는 부분을 별도의 클래스로 사용
+
+
 ### 연동 분리
+
+![기능책임2](https://user-images.githubusercontent.com/68090443/175808853-8ef9b0c9-5f35-4e49-a9da-b17ffc9a012e.PNG)
+
+네트워크, 메시징, 파일 등 연동 처리 코드 분리
 
 
 ### 조건 분기는 추상화
 
+![기능책임3](https://user-images.githubusercontent.com/68090443/175808876-e489c038-ed58-4767-a273-aa50c189db99.PNG)
+
+
+연속적인 if-else는 추상화 고민
+
+
 ## 역활 분리와 테스트
+
+![기능책임4](https://user-images.githubusercontent.com/68090443/175808890-c82aca9e-aed3-4e6c-a1f4-d1f4733fcb33.PNG)
 
 역활 분리가 잘 되면  테스트가 용이해진다.
 
 ### 분리연습 1
+
 해당 코드는 평문 암호화하고 암호문을 담아 외부에 요청하고 응답을 다시 복호화한다.
 
     public class CashClient {
@@ -140,6 +159,10 @@ ex)
     
 ### 분리연습 2
 
-조건 분기 추상화를 해보자!
+![기능책임5](https://user-images.githubusercontent.com/68090443/175808912-8e7db053-ec06-40b2-b5a3-e57cbf99b32a.PNG)
 
-### 분리연습 3
+위 코드의 조건 분기를 추상화 해보자!
+
+![기능책임6](https://user-images.githubusercontent.com/68090443/175808933-9a7241e1-0932-484d-9d39-b81f16dcf6cd.PNG)
+
+Movie 클래스를 추상 클래스로 변경하고 각 하위 클래스가 포인트 기능을 제공하도록 변경한다.
