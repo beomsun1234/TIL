@@ -19,6 +19,8 @@
 가상머신은 하이퍼바이저를 이용해 Guest OS를 만들어낸다. 예를 들어, 윈도우 운영체제를 메인으로 쓰고 있다면 이는 Host OS가 되는 것이고 이 위에 Ubuntu를 가상머신위에 구동시킨다면 이는 Guest OS가 되는 것이다. Guest OS를 구동시키려면 Host OS에서 자원을 일부 사용해야 한다. 따라서 Host OS도 느려지고, Guest OS도 성능이 그리 좋은 편은 아니다.
 
 
+        Server → Host OS → Hypervisor → 각각의 Guest OS 가 설치된 VM 구동
+
 
 ### 도커
 
@@ -27,6 +29,9 @@
 
 
 가상머신가 무엇이 다를까? 도커는 그림과 같이 Geust OS를 설치하지 않으며 Docker 이미지에 서버 운영에 필요한 프로그램과 라이브러리만 격리해서 설치할 수 있고, OS 자원은 호스트와 공유한다. 이렇게 되면서 이미지 용량이 대폭 줄어든다.
+
+
+        Server → Host OS → Docker Engine → Container 구동
 
 
 - 장점
@@ -73,6 +78,7 @@
 
 ![컨테이너](https://user-images.githubusercontent.com/68090443/135714741-38684b20-c4f9-472a-a3a0-ea2e2fa03b47.PNG)
 
+컨테이너란 ```애플리케이션과 애플리케이션을 구동하는 환경을, Host OS 로부터 격리한 공간을 의미합니다.```
 
 - 이미지를 실행한 상태 
 
