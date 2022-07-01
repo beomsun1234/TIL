@@ -60,17 +60,17 @@ SRP(단일 책임 원칙), OCP(개방-폐쇄 원칙), LSP(리스코프 치환 �
             }
         }
         
-        public class Backend implement Employee{
-            @Override
-            public void doWork(){
-                system.out.println("백엔드 작업")
-            }
-        }
-        
         public class Frontend implement Employee{
             @Override
             public void doWork(){
-                system.out.println("백엔드 작업")
+                system.out.println("프론트엔드 작업")
+            }
+        }
+        
+        public class Designer implement Employee{
+            @Override
+            public void doWork(){
+                system.out.println("디자이너 작업")
             }
         }
 
