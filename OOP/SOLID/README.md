@@ -26,6 +26,22 @@ SRP(단일 책임 원칙), OCP(개방-폐쇄 원칙), LSP(리스코프 치환 �
 다른 예로 개발 회사의 직원을 예로 들어보겠다. SUN 회사의 직원은 backend, frontend, designer, dba, devops 등이 있다고 하자! 
 
 
+
+            +------------------------------+   
+            |           Employee           |   
+            +------------------------------+ 
+            |                              |
+            +------------------------------+
+            | + workBackend() :void        |
+            | + workFrontend() :void       |
+            | + workDesigner() :void       |
+            | ......                       |
+            +------------------------------+
+
+
+코드
+
+
         public class Employee{
 
             public void workBackend(){
@@ -46,6 +62,24 @@ SRP(단일 책임 원칙), OCP(개방-폐쇄 원칙), LSP(리스코프 치환 �
 
 위 코드는 SRP를 지키지 않았다. employee가 너무 많은 책임을 가지고 있다.. 이를 리팩토링 해보자!
 
+
+                    +------------------------------+
+                    |         <<Interface>>        |         
+                    |           Employee           |   
+                    +------------------------------+         
+                    | +       doWork() :void       |
+                    +------------------------------+
+                                   ^
+                                   |
+                  +----------------+-------------------+--------------+
+                  |                |                   |              |
+        +---------------+  +-------------+  +---------------+       ..... 
+        |    Backend    |  |   Frontend  |  |   Designer    |    
+        +---------------+  +-------------+  +---------------+         
+
+
+
+코드
 
         public interface Employee{
             void doWork();
@@ -74,6 +108,8 @@ SRP(단일 책임 원칙), OCP(개방-폐쇄 원칙), LSP(리스코프 치환 �
             }
         }
 
+
+
 각자의 역활을 하도록 분리하여 구현하였다. 객체 지향 4대 특성 중, 단일 책임 원익과 가장 관계가 깊은 특성은 모델링을 담당하는 '추상화'이다.
 
 
@@ -84,8 +120,87 @@ SRP(단일 책임 원칙), OCP(개방-폐쇄 원칙), LSP(리스코프 치환 �
 
 확장을 하는데 어떻게 코드를 변경하지 않을까??? ```인터페이스 안에 필요 기능을 작성한다면 인터페이스를 구현하는 구현클래스는 다형성을 통해서 새로운 기능의 확장이 가능하다.```
 
+ex1) JDBC
 
+[사진](https://devcraft.tistory.com/26)
+
+JDBC 는 데이타 커넥션 부분만 변경하면, 어떤 DB 에서도 동일하게 사용할 수 있다.
+(JDBC 는 DB 에 개방적이다.) 다르게 표현해보면, JDBC 는 DB가 중간에 변경되더라도 영향을 받지 않게 설계되어 있다.
+(JDBC 는 DB의 변경에 닫혀있다.)
   
 
+ex2) 송금시 신한은행을 사용하고 있었다.
 
+        public class TransferService(){
+            private SinhanTransfer sinhanTransfer
 
+            public TransferService(SinhanTransfer sinhanTransfer){
+                this.sinhanTransfer = sinhanTransfer
+            }
+
+            public void transfer(){
+                sinhanTransfer.transfer()
+            }
+
+        }
+
+        public class SinhanTransfer {
+            public void transfer(){
+                system.out.println("신한은행 송금");
+            }
+        }
+
+신한은행에서 국민으로 바뀐다면??
+
+        public class KBTransfer {
+            public void transfer(){
+                system.out.println("국민은행 송금");
+            }
+        }
+        
+        public class TransferService(){
+            private KBTransfer kbTransfer
+
+            public TransferService(SinhanTransfer kbTransfer){
+                this.sinhanTransfer = sinhanTransfer
+            }
+
+            public void transfer(){
+                kbTransfer.transfer()
+            }
+
+        }
+
+만약 다른 은행이 또 추가된다면 기존의 코드를 수정해야 하기 때문에 위 코드는 OCP를 위반하는 코드이다. 이를 해결해보자!!
+
+        public interface TransferMethod {
+            void transfer();
+        }
+        
+        public class KBTransfer implement TransferMethod{
+            @Override
+            public void transfer(){
+                system.out.println("국민은행 송금");
+            }
+        }
+
+        public class SinhanTransfer implement TransferMethod{
+            @Override
+            public void transfer(){
+                system.out.println("신한은행 송금");
+            }
+        }
+        
+        public class TransferService(){
+            private TransferMethod transferMethod
+
+            public TransferService(TransferMethod transferMethod){
+                this.transferMethod = transferMethod
+            }
+
+            public void transfer(){
+                transferMethod.transfer()
+            }
+        }
+        
+이제 송금방식에 다른 은행이 추가 되더라도 TransferService를 변경하지 않아도 된다!!
