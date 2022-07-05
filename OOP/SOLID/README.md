@@ -120,6 +120,8 @@ SRP(단일 책임 원칙), OCP(개방-폐쇄 원칙), LSP(리스코프 치환 �
 
 확장을 하는데 어떻게 코드를 변경하지 않을까??? ```인터페이스 안에 필요 기능을 작성한다면 인터페이스를 구현하는 구현클래스는 다형성을 통해서 새로운 기능의 확장이 가능하다.```
 
+다형성을 활용하자!!
+
 ex1) JDBC
 
 [사진](https://devcraft.tistory.com/26)
@@ -152,6 +154,10 @@ ex2) 송금시 신한은행을 사용하고 있었다.
 
 신한은행에서 국민으로 바뀐다면??
 
+
+
+코드
+
         public class KBTransfer {
             public void transfer(){
                 system.out.println("국민은행 송금");
@@ -173,6 +179,11 @@ ex2) 송금시 신한은행을 사용하고 있었다.
 
 만약 다른 은행이 또 추가된다면 기존의 코드를 수정해야 하기 때문에 위 코드는 OCP를 위반하는 코드이다. 이를 해결해보자!!
 
+
+
+
+코드
+
         public interface TransferMethod {
             void transfer();
         }
@@ -192,7 +203,7 @@ ex2) 송금시 신한은행을 사용하고 있었다.
         }
         
         public class TransferService(){
-            private TransferMethod transferMethod
+            private   transferMethod
 
             public TransferService(TransferMethod transferMethod){
                 this.transferMethod = transferMethod
@@ -204,3 +215,75 @@ ex2) 송금시 신한은행을 사용하고 있었다.
         }
         
 이제 송금방식에 다른 은행이 추가 되더라도 TransferService를 변경하지 않아도 된다!!
+ 
+### LSP (Liskov Substitution Principle) 리스코프 치환 원칙
+
+- 자식 클래스는 언제나 자신의 부모 클래스를 대체할 수 있다는 원칙이다. 즉 부모 클래스가 들어갈 자리에 자식 클래스를 넣어도 계획대로 잘 작동해야 한다.
+- 자식클래스는 부모 클래스의 책임을 무시하거나 재정의하지 않고 확장만 수행하도록 해야 LSP를 만족한다.
+
+
+        만약 S가 T의 서브타입이라면, T는 어떠한 경고도 내지 않으면서, S로 대체(치환) 가능해야하한다.
+
+[사진](https://blog.siner.io/2020/06/18/solid-principles/)
+
+자식 클래스가 부모클래스의 기능을 똑같이 수행할 수 없을때, 이는 버그를 발생시키는 요인이 됩니다.
+
+ex) 대표적인 예제로 사각형 예제
+
+        class Rectangle {
+            private int width;
+            private int height;
+
+            public void setHeight(int height) {
+                this.height = height;
+            }
+
+            public int getHeight() {
+                return this.height;
+            }
+
+            public void setWidth(int width) {
+                this.width = width;
+            }
+
+            public int getWidth() {
+                return this.width;
+            }
+
+            public int area() {
+                return this.width * this.height;
+            }
+        }
+
+위는 넓이와 높이를 가지는 Rectangle(직사각형) 클래스가 이며 Rectangle을 상속받는 Square(정사각형)를 만들어보자!
+
+        class Square extends Rectangle {
+            @Override
+            public void setHeight(int value) {
+                this.width = value;
+                this.height = value;
+            }
+
+            @Override
+            public void setWidth(int value) {
+                this.width = value;
+                this.height = value;
+            }
+        }
+
+위 코드와 같이 정사각형(Square)은 넓이와 높이가 같다. 이제 너비 4 높이 9로 설정하고 넓이를 확인하는 getArea() 함수의 값을 확인해보자!
+    
+    Rectangle r = new Rectangle();
+    Rectangle r2 = new Square();
+     
+    r.setHeight(3);
+    r.setWidth(4);
+    
+    r2.setHeight(3);
+    r2.setWidth(4);
+    
+    assertThat(r.getArea()).isEqualTo(r2.getArea());
+    
+부모의 값(Rectangle)과 자식의 값(Square)이 다르게 나온다. 이는 LSP에 위배된다. 따라서, 부모클래스를 상속하는 자식클래스는 부모 클래스의 규약을 무시하거나 오버라이딩을 자제해야하는 것이 LSP이다.
+
+LSP의 핵심은 자식 클래스가 항상 부모 클래스의 역할을 충실히 수행하는 것입니다!
