@@ -294,7 +294,7 @@ LSP의 핵심은 자식 클래스가 항상 부모 클래스의 역할을 충실
 
 ### ISP (Interface Segregation Principle) 인터페이스 분리 원칙
 
-"클라이언트는 자신이 사용하지 않는 메서드에 의존 관계를 맺으면 안된다. - 로버트 C 마틴" 
+    "클라이언트는 자신이 사용하지 않는 메서드에 의존 관계를 맺으면 안된다. - 로버트 C 마틴" 
 
 ex) ISP 위반
 
@@ -342,7 +342,7 @@ EconomicPrinter는 복사기능만 사용한다.
 SmartDevice에 함수를 다 정의해놓고 의존하다 보니 EconomicPrinter같이 자신이 사용하지 않는 다른 메소드에도 의존하게 된다. EconomicPrinter같이 프린터 기능만 이용하는 클라이언트가 팩스 기능 및 스캔 기능의 변경으로 인해 발생하는 문제의 영향을 받지 않도록 해야한다. 위 코드를 좋은 예로 바꿔보자!
 
 
-        interface Printer{
+        pubilc interface Printer{
             void Print();
         }
 
@@ -383,4 +383,8 @@ AllInOnePrinter
 AllInOnePrinter 클라이언트는 Printer, Fax, Scanner 인터페이스, EconomicPrinter 클라이언트는 Printer 인터페이스를 각자 클라이언트들은 자신이 관심을 갖는 메서드들만 있는 각각의 인터페이스로 정의하여 사용하도록 한다.
 
 ## DIP (Dependency Inversion Principle) 의존성 역전 원칙
+
+    고수준 모듈은 저수준 모듈의 구현에 의존해서는 안 된다. 저수준 모듈이 고수준 모듈에서 정의한 추상 타입에 의존해야 한다.
+
+즉 ```자신보다 변하기 쉬운 것에 의존하지 마라```
 
