@@ -388,3 +388,153 @@ AllInOnePrinter 클라이언트는 Printer, Fax, Scanner 인터페이스, Econom
 
 즉 ```자신보다 변하기 쉬운 것에 의존하지 마라```
 
+ex) 계산기
+
+        public class Calculator
+        {
+            public double Add(double x, double y)
+            {
+                return x + y;
+            }
+
+            public double Subtract(double x, double y)
+            {
+                return x - y;
+            }
+        }
+
+여기서 곱하기를 추가해보자!
+
+        public class Calculator
+        {
+            public double add(double x, double y)
+            {
+                return x + y;
+            }
+
+            public double subtract(double x, double y)
+            {
+                return x - y;
+            }
+            
+            public double multiply(double x, double y)
+            {
+                return x * y;
+            }
+        }
+
+Calculator 클래스에 새 작업을 추가하면 현재 클래스가 수정됩니다. 이것은 OCP에 위배된다.. DIP를 사용해서 OCP를 지켜보자!
+ 
+구체화된 클래스에 의존하는 것 보다 추상화된 클래스에 의존하게 하자!
+
+
+        public interface CalculatorOperation
+        {
+            double Calculate(double x, double y);
+        }
+
+
+Add
+
+        public class AddCalculatorOperation implements CalculatorOperation
+        {
+            @Override
+            public double calculate(double x, double y)
+            {
+                return x + y;
+            }
+        }     
+        
+Subtract
+
+        public class SubtractCalculatorOperation implements CalculatorOperation
+        {
+            @Override
+            public double calculate(double x, double y)
+            {
+                return x - y;
+            }
+        }   
+
+Multiply
+
+        public class MultiplyCalculatorOperation implements CalculatorOperation
+        {
+            @Override
+            public double calculate(double x, double y)
+            {
+                return x * y;
+            }
+        }
+
+Calculator
+
+        public class Calculator {
+
+            private CalculatorOperation calculatorOperation;
+
+            public Calculator(CalculatorOperation calculatorOperation)
+            {
+                this.calculatorOperation = calculatorOperation;
+            }    
+
+            public double Solve(double x, double y)
+            {
+                //계산은 주입된 CalculatorOperation을 따른다.
+                return calculatorOperation.calculate(x, y);
+            }
+
+        }
+
+만약 아래와 같이 나누기가 추가되어도 Calculator 클래스를 변경하지 않아도 된다.
+
+        public class DivideCalculatorOperation implements CalculatorOperation
+        {
+            public double calculate(double x, double y)
+            {
+                return x / y;
+            }
+        }
+        
+test해보자!
+
+        public class CalculatorTest
+        {
+            @Test
+            public void 1+1=2()
+            {
+                Calculator calculator = new Calculator(new AddCalculatorOperation());
+                double result = calculator.solve(1, 1);
+                // Result is 2.
+                assertThat(result).isEqualTo(2);
+            }
+
+            @Test
+            public void 1-1=0()
+            {
+                Calculator calculator = new Calculator(new SubtractCalculatorOperation());
+                double result = calculator.solve(1, 1);
+                // Result is 0.
+                assertThat(result).isEqualTo(0);
+            }
+
+            @Test
+            public void 1*2=2()
+            {
+                Calculator calculator = new Calculator(new MultiplyCalculatorOperation());
+                double result = calculator.solve(1, 2);
+                // Result is 2.
+                assertThat(result).isEqualTo(2);
+            }
+
+            @Test
+            public void 10/5=2()
+            {
+                Calculator calculator = new Calculator(new DivideCalculatorOperation());
+                double result = calculator.solve(10, 5);
+                // Result is 2.
+                assertThat(result).isEqualTo(2);
+            }
+        }
+        
+[사진](https://medium.com/@kedren.villena/simplifying-dependency-inversion-principle-dip-59228122649a)
