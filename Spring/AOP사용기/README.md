@@ -81,6 +81,83 @@ Aspect 모듈임을 알려주기 위한 @Aspect를 명시하고, @Component를 �
 service 패키지의 모든 메서드를 지정해 주었다.
 
 
+## 구현2(어노테이션사용)
+
+
+우선 LogExecutionTime 어노테이션을 만들어준다.
+
+
+	@Target(ElementType.METHOD) //어노테이션을 메소드에 적용하기 위해 타켓을 METHOD로 설정
+	@Retention(RetentionPolicy.RUNTIME) // 해당 애노테이션을 런타임까지 유지
+	public @interface LogExecutionTime {
+	}
+
+
+실제 동작할 Advice 를 정의해준다. 메소드 시간을 체크하는 기능이다.
+
+	@Component
+	@Aspect
+	@Slf4j
+	public class LogAspect {
+
+	    // LogExecutionTime 어노테이션이 붙은 메소드만
+	    @Around("@annotation(LogExecutionTime)")
+	    public Object executionTimeLog(ProceedingJoinPoint joinPoint) throws Throwable {
+		return executionTime(joinPoint);
+	    }
+
+	    //HelloAopController 모든 메소드에 적용
+	    @Around("execution(* com.bs.helloaop.HelloAopController.*(..))")
+	    public Object executionTimeLogAll(ProceedingJoinPoint joinPoint) throws Throwable {
+
+		return executionTime(joinPoint);
+
+	    }
+
+
+	    private Object executionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+		StopWatch stopWatch = new StopWatch();
+
+		log.info("-----START " + joinPoint.getSignature().getName()+ " method" + "------");
+
+		stopWatch.start();
+
+		//target method 실행
+		Object proceed = joinPoint.proceed();
+
+		stopWatch.stop();
+
+		log.info("-----END------");
+
+		log.info("Performance time : " + stopWatch.getTotalTimeMillis()+"(ms)");
+
+		return proceed;
+	    }
+
+	}
+
+advise를 적용해주자! LogExecutionTime 어노테이션을 advice를 적용 할 함수에 붙여준다. 
+
+
+	@RequestMapping("api")
+	@RestController
+	public class HelloAopController {
+
+
+	    @LogExecutionTime
+	    @GetMapping("v1")
+	    public String helle(){
+		return "hello";
+	    }
+
+	    @GetMapping("v2")
+	    public String helle2(){
+		return "hello2";
+	    }
+
+	}
+
+
 ## PointCut 표현식
 
  advice가 어떤 JoinPoint에 사용될 것인지를 지정하는 PointCut 표현식
@@ -160,3 +237,4 @@ Ex)
 	2021-10-22 13:45:30.859  INFO 6716 --- [nio-8080-exec-5] com.bs.aop.config.TimeAop           : Performance time : 1(ms)
 
 	
+## (코드)[https://github.com/beomsun1234/Study/tree/master/Spring/hello-aop]
