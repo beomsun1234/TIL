@@ -17,7 +17,30 @@ Spring Web MVC를 사용해서 @Controller, @GET, @POST 등의 어노테이션�
 
 ## Spring Transaction
 
+Low level로 트랜잭션 처리를 하려면 setAutoCommit()과 commit(), rollback()을 명시적으로 호출해야 한다.
 
+ex)
+
+
+    try {
+      dbConnection.setAutoCommit(false);
+
+      doSomething()...
+
+      dbConnection.commit();
+
+      System.out.println("Done!");
+
+    } catch(SQLException e) {
+      dbConnection.rollback();
+    }
+    finally {
+      ...
+          dbConnection.close();
+    }
+
+
+그러나 Spring이 제공하는 @Transactional 애노테이션을 사용하면 단순히 메소드에 애노테이션을 붙여줌으로써 트랜잭션 처리가 이루어진다. 
 
 
 
