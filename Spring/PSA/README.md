@@ -43,5 +43,10 @@ ex)
 그러나 Spring이 제공하는 @Transactional 애노테이션을 사용하면 단순히 메소드에 애노테이션을 붙여줌으로써 트랜잭션 처리가 이루어진다. 
 
 
+        @Transactional(readOnly = true)
+        Member findById(Long id);
+
+
+
 
 ## Spring Cache
