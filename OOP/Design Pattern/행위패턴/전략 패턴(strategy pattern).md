@@ -87,7 +87,7 @@ that enables selecting an algorithm at runtime."
 켄, 류, 춘리가 있다고 하면 Fighter를 상속받아 구현하게 된다. 
 
 
-만약 시간이 흘러 켄이 킥이나 점프를 하지 않는다면?? 켄이 킥이나 점프를 할 수 없도록 코드를 수정하면 됩니다. 하지만 만약 점프나 킥을 하지 않는 다른 캐릭터들이 만들어진다면?? 해당 캐릭터들에서 이를 처리해야 해서 유지보수를 어렵게 합니다. 
+만약 시간이 흘러 켄이 킥이나 점프를 하지 않는다면?? 켄이 킥이나 점프를 할 수 없도록 코드를 수정하면 됩니다. 하지만 만약 점프나 킥을 하지 않는 다른 캐릭터들이 만들어진다면?? 해당 캐릭터들 마다 이를 처리해야함으로 유지보수를 어렵게 합니다. 
 
 리팩토링을 진행해 봅시다! 
 
@@ -295,7 +295,7 @@ Fighter 클래스는 해당 전략들을 상속받지 않고 조립해서 사용
             super(kickBehavior,jumpBehavior);
         }
         public void display() {
-            System.out.println("Ryu");
+            System.out.println("나는 류");
         }
     }
 
@@ -310,7 +310,7 @@ Fighter 클래스는 해당 전략들을 상속받지 않고 조립해서 사용
             super(kickBehavior,jumpBehavior);
         }
         public void display() {
-            System.out.println("Ken");
+            System.out.println("나는 켄");
         }
     }
 
@@ -323,7 +323,7 @@ Fighter 클래스는 해당 전략들을 상속받지 않고 조립해서 사용
             super(kickBehavior,jumpBehavior);
         }
         public void display() {
-            System.out.println("ChunLi");
+            System.out.println("나는 ");
         }
     }
 
