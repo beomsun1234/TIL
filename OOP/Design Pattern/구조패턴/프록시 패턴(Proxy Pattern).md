@@ -21,6 +21,7 @@
 
 프록시 패턴은 클라이언트에게 접근에 대한 컨트롤을 제공하여 위와 같은 문제를 해결합니다.
 
+ex) 
 
 명령을 실행하는 CommandExecutor 인터페이스 정의
 
@@ -58,7 +59,7 @@ CommandExecutorProxy
       private CommandExecutor executor;
 
       public CommandExecutorProxy(String user, String pwd){
-        if("Beomsun".equals(user) && "admin_pwd".equals(pwd)) {
+        if("BeomSun".equals(user) && "admin_pwd".equals(pwd)) {
           isAdmin=true;
         }
         executor = new CommandExecutorImpl();
@@ -80,3 +81,28 @@ CommandExecutorProxy
 
 
 
+Client
+
+        public class ProxyPatternTest {
+
+            public static void main(String[] args){
+                CommandExecutor executor = new CommandExecutorProxy("BeomSun", "admin_pwd");
+                try {
+                    executor.runCommand("ls -ltr");
+                    executor.runCommand("rm -rf abc.pdf");
+                } catch (Exception e) {
+                    System.out.println("Exception Message::"+e.getMessage());
+                }	
+            }
+        }
+
+클라이언트 코드에서 보았듯 클라이언트에서 직접 CommandExecutorImpl 클래스에 직접 접근하지 않고 CommandExecutorProxy에서 객체를 생성하여 권한에 따라 명령어를 수행하도록 했다.
+
+프록시 패턴은 이렇듯 어떤 객체에 대하여 접근할 때에 Wrapper Class를 두어 접근에 대한 통제(Control access)를 위해 사용합니다.
+
+
+## 참고
+
+- https://www.digitalocean.com/community/tutorials/proxy-design-pattern
+- https://www.geeksforgeeks.org/proxy-design-pattern/
+- https://readystory.tistory.com/m/132
