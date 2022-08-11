@@ -329,20 +329,20 @@ Fighter 클래스는 해당 전략들을 상속받지 않고 조립해서 사용
 
 위처럼 Fighter는 행동을 구현하는 대신 킥,과 점프를 kickBehavior, jumpBehavior이라는 전략에 위임합니다.
 
-public class StreetFighter
-{
-    public static void main(String args[])
+    public class StreetFighter
     {
-        Fighter ken = new Ken(new TornadoKick(), new LongJump());
-        ken.display();
-        // Test behaviors
-        ken.punch();
-        ken.kick();
-        ken.jump();
-        // 켄이 롱 점프에서 -> 점프를 못하게 밸런스 조절
-        ken.setJumpBehavior(NoJump);
-        ken.jump();
+        public static void main(String args[])
+        {
+            Fighter ken = new Ken(new TornadoKick(), new LongJump());
+            ken.display();
+            // Test behaviors
+            ken.punch();
+            ken.kick();
+            ken.jump();
+            // 켄이 롱 점프에서 -> 점프를 못하게 밸런스 조절
+            ken.setJumpBehavior(NoJump);
+            ken.jump();
+        }
     }
-}
 
 전략 패턴을 사용하면 위 코드처럼 기존 코드에 영향을 주지 않고 행동을 중간에 변경할 수 있습니다. 프로그램 상으로 로직이 변경되거나 추가 되었을 때, 유연하게 대처 할 수 있습니다.
