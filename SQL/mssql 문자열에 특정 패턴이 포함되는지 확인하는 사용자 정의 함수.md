@@ -23,7 +23,8 @@ EX) 문자열 A,B,C,D,E,F,G가 있을때 D,E,F 가 함께 붙어있는지 판별
     GO
 
 -- 함수 실행
-SELECT dbo.is_pattern_included('A,B,C,D,E,F,G', 'D,E,F')
+
+    SELECT dbo.is_pattern_included('A,B,C,D,E,F,G', 'D,E,F')
 
 
 정말 간단하게 만들어서 사용중이다. 
