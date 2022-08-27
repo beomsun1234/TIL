@@ -3,7 +3,6 @@
 문자열에 특정 패턴이 포함되는지 확인하는 작업이 필요했었는데 여러곳에서 쓰일수 있을것 같아서 사용자 함수로 만들어보았다.
 
 EX) 문자열 A,B,C,D,E,F,G가 있을때 D,E,F 가 함께 붙어있는지 판별
-
     CREATE FUNCTION is_pattern_included(@as_text varchar(255),
                       @as_pattern varchar(255))
     RETURNS INTEGER
