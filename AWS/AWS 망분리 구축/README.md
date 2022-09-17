@@ -52,6 +52,19 @@ AWS내부에서 가상 private network 망을 만들어줄 수 있게 해주는 
 
 서브넷은 다시 Public Subnet과 Private Subnet으로 나뉠 수 있다. 인터넷과 연결되어있는 서브넷을 public subnet이라고 하고 인터넷과 연결되어있지 않은 서브넷을 private subnet이라고 한다.
 
+## AWS 서브넷 설정(public, private, bastion)
+
+### public 서브넷
+
+![public서브넷](https://user-images.githubusercontent.com/68090443/190850488-e34cbc29-95c1-43d1-ba2e-31f80e7eaac1.PNG)
+
+### private 서브넷
+
+![private 서브넷](https://user-images.githubusercontent.com/68090443/190850485-97f8276a-f662-4fd9-8f70-f8f242a6af41.PNG)
+
+### bastion 서브넷
+
+![바스티온서브넷](https://user-images.githubusercontent.com/68090443/190850493-50bff01b-003e-4ed5-aa29-d81dac294c3d.PNG)
 
 
 # 라우팅테이블(Routing Table)
@@ -72,6 +85,28 @@ AWS내부에서 가상 private network 망을 만들어줄 수 있게 해주는 
 Local: VPC 내의 다른 subnet으로 traffic을 routing 한다.
 
 
+## 라우팅 테이블 생성
+
+### public
+
+![퍼블릭라우팅테이블](https://user-images.githubusercontent.com/68090443/190850549-55f6028b-734a-4477-9e3e-eeebd82aaef7.PNG)
+
+### private
+
+![프라이빗라우팅테이블](https://user-images.githubusercontent.com/68090443/190850554-2d18b1ac-aa5c-4c7c-8488-6acf9d5a4776.PNG)
+
+
+### bastion
+
+![바스티온라우팅](https://user-images.githubusercontent.com/68090443/190850560-e8cb548d-8334-45dd-b20c-98875462f869.PNG)
+
+
+라우팅테이블을 생성 후 각 라우팅 테이블에 각 서브넷을 연결해준다.
+
+![각라우팅테이블 서브넷 연결](https://user-images.githubusercontent.com/68090443/190850591-7c34e81c-f925-4574-b37d-948baf23330d.PNG)
+
+사진과 같이 화면이 뜨면 라우팅테이블에 연결할 서브넷을 선택해주고 연결저장 버튼을 클릭하면 된다.
+
 # 인터넷게이트웨이(Internet Gateway) 
 
 라우팅 테이블에 local만 정의 되어 있다면 외부 인터넷으로 트래픽을 처리 할 수 없게됩니다. 이때 외부 인터넷 트래픽을 처리 하기 위해서는 인터넷 게이트웨이를 사용하면 됩니다.
@@ -87,6 +122,18 @@ Local: VPC 내의 다른 subnet으로 traffic을 routing 한다.
 
 
 Internet gateway : internet gateway를 통해서, 외부 인터넷으로 traffic을 routing 한다.
+
+
+### 인터넷 게이트웨이 생성
+
+![인터넷게이트웨이](https://user-images.githubusercontent.com/68090443/190850676-259d4bb4-0122-4ebc-9843-c63febcee577.PNG)
+
+
+### public과 bastion 인터넷 게이트웨이 연결
+
+
+![퍼블릭과바스티온 igw연결](https://user-images.githubusercontent.com/68090443/190850692-9ead78a0-edd4-4a4a-9211-dce4754c0f08.PNG)
+
 
 
 # NAT 게이트웨이 (NAT gateway)
