@@ -146,10 +146,26 @@ public 서브넷과 private 서브넷은 같은 VPC안에 있으면 서로 통�
 NAT Gateway는 내부에서 외부로의 접속만 가능하며 외부에서 NAT Gateway를 이용하여 접속하는 것은 불가능하다는 특징을 가지고 있다. 
 
 
+NAT Gateway는 비용으 들기 때문에 직접 NAT Gateway를 만들어보자!
 
 
+## NAT Instance 구성
 
 
+![nat 인스턴스1](https://user-images.githubusercontent.com/68090443/190893397-4bd5319c-e1fb-4930-a3d7-e01f79158ac9.PNG)
+
+우선 EC2를 생성하고 AMI를 위와 같이 선택해준다.
+
+
+![넷인스턴스 vpc설정](https://user-images.githubusercontent.com/68090443/190893451-c06c3a89-cc51-4fd1-9fe8-3ba3cf54e79e.PNG)
+
+NAT Instance의 VPC를 설정한다.
+
+
+![private에 nat 인스턴스 적용](https://user-images.githubusercontent.com/68090443/190893475-a62960f6-525f-4c7f-b9f2-5fbab55fbd7c.PNG)
+
+
+이후 Private 라우팅 테이블에 NAT Instance 적용해준다.
 
 
 
