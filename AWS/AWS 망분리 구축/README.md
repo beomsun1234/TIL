@@ -169,4 +169,7 @@ NAT Instance의 VPC를 설정한다.
 
 
 
+# ec2
+
+![망분리ec2](https://user-images.githubusercontent.com/68090443/191489820-49a64450-c3d8-4eb5-8ecc-df849c9633b8.PNG)
 
