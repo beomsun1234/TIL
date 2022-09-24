@@ -12,6 +12,11 @@ https://kubernetes.github.io/ingress-nginx/deploy/#bare-metal-clusters
 
 
 
+## ingress에 SSL적용
+
+Let's Encrypt SSL 인증서를 ingress에 적용완료
+
+
 
 
 
