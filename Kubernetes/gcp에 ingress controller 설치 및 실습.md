@@ -50,8 +50,8 @@ ingress 통해 대시보드 접속완료
 
  error: error executing template "{{.data.token | base64decode}}": template: output:1:16: executing "output" at <base64decode>: invalid value; expected string
 
-위와 같은 에러가 발생했고 구글링해보니 아래 명령어로 문제를 해결할 수 있었다. (링크)[https://github.com/vmware-tanzu/kubeapps/issues/1550]
-    
+위와 같은 에러가 발생했고 구글링해보니 아래 명령어로 문제를 해결할 수 있었다. 참고 -> https://github.com/vmware-tanzu/kubeapps/issues/1550
+   
     kubectl -n kubernetes-dashboard create token admin-user
 
 
