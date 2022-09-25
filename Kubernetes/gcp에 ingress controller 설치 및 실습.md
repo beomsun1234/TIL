@@ -17,7 +17,9 @@ https://kubernetes.github.io/ingress-nginx/deploy/#bare-metal-clusters
 Let's Encrypt SSL 인증서를 ingress에 적용완료
 
 
+## 쿠버네티스 대시보드 
 
+ingress 통해 대시보드 접속완료
 
 
 ## 트러블슈팅
