@@ -22,6 +22,7 @@ Let's Encrypt SSL 인증서를 ingress에 적용완료
 ingress 통해 대시보드 접속완료
 
 
+
 ## 트러블슈팅
 
 ### kubeadm init 시 발생한 에러
@@ -40,6 +41,18 @@ ingress 통해 대시보드 접속완료
   sudo systemctl restart containerd
   
 
+
+### 대시보드 토큰 생성 안될때
+
+   
+
+대시보드 생성 후 로그인에 사용할 토큰이 생성되지 않는 문제 발생했다.. 
+
+ error: error executing template "{{.data.token | base64decode}}": template: output:1:16: executing "output" at <base64decode>: invalid value; expected string
+
+위와 같은 에러가 발생했고 구글링해보니 아래 명령어로 문제를 해결할 수 있었다. (링크)[https://github.com/vmware-tanzu/kubeapps/issues/1550]
+    
+    kubectl -n kubernetes-dashboard create token admin-user
 
 
 
