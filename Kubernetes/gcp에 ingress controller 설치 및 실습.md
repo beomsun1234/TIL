@@ -21,6 +21,8 @@ Let's Encrypt SSL 인증서를 ingress에 적용완료
 
 ingress 통해 대시보드 접속완료
 
+## nginx reverse proxy 설정
+
 
 
 ## 트러블슈팅
