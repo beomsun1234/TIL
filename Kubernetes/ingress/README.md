@@ -1,5 +1,12 @@
 # Kubernets ingress 실습
 
+구성
+
+![쿠버네티스 아키텍쳐](https://user-images.githubusercontent.com/68090443/192749410-9f7f99b8-01c9-4978-aac1-d3c8d82bf66d.PNG)
+
+
+
+
 ## SSL 인증서 발급 받기
 
 주의!! - 80포트를 사용하고 있지 않아야 합니다.
