@@ -139,12 +139,12 @@ pv의 hostPath 권한 문제였다.. kafka와 zookeeper 가 돌아가고있는 �
 
 다른 방법을 좀 더 찾아보니 helm install시 
 
-        --set volumePermissions.enabled=true --set volumePermissions.enabled=true
+    --set volumePermissions.enabled=true --set volumePermissions.enabled=true
     
-부분을 추가해주므로 해결 할 수 있다.
+위 부분을 추가해주므로 해결할 수 있었다.
 
 
-        helm install kafka -f values.yaml  bitnami/kafka --set volumePermissions.enabled=true --set volumePermissions.enabled=true
+    helm install kafka -f values.yaml  bitnami/kafka --set volumePermissions.enabled=true --set volumePermissions.enabled=true
 
 
 
