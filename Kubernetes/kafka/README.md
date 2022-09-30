@@ -124,6 +124,13 @@ helm install
     helm install kafka -f values.yaml  bitnami/kafka --set volumePermissions.enabled=true --set volumePermissions.enabled=true
     
 
+## bootstrap-server 
+
+
+[kafka 파드명].kafka-headless.default.svc.cluster.local:9092
+
+
+    kafka-0.kafka-headless.default.svc.cluster.local:9092
 
 ## 트러블슈팅
 
