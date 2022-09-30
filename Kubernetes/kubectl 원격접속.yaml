@@ -1,0 +1,39 @@
+# kubectl 원격접속
+
+kubectl 은 Kubernetes Client 이다. HTTP 통신을 기반으로 Kubernetes Controller 와 RestFul API 통신을 요청하고 결과를 받아 사용자에게 출력하게 하는 역할을 한다.
+
+Master Node 에서 kubectl이 실행되도록 설정을 하는데, 다른 인스턴스에서 kubectl을 설치해서 Kubernetes Controller와 통신 할 수 있도록 설정해보자!
+
+
+## kubectl 설치
+
+우분투로 가정하고 해당 경로에서 다운받을수 있다.
+
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+
+
+## kubernetes Cluster에 접근할 수 있는 권한 얻기
+
+kubectl을 사용할 인스턴스에서 해당 명령어 실행
+
+  mkdir ~/.kube
+
+
+Master Node에서 아래 명령어로 config 확인 후 복사.
+
+  cat ~/.kube/config
+  
+인스턴스에서 
+  
+  vi ~/.kube/config
+
+해당 내용 붙여넣은 후 저장하면 k8s Cluster 접근 권한을 얻게 된다.
+
+
+  
+  
+  
+
+
+
