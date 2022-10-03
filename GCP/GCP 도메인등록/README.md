@@ -44,3 +44,4 @@ IPv4 주소에 인스턴스 ip 입력
 
 ![gcp7](https://user-images.githubusercontent.com/68090443/193418862-ad6e71ee-2a21-4a4c-83c2-8f80a979647b.PNG)
 
+
