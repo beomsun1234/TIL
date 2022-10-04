@@ -43,6 +43,9 @@ ingress 통해 대시보드 접속완료
   sudo systemctl restart containerd
   
 
+### ingress 실행시 webhook 관련 에러
+
+    kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 ### 대시보드 토큰 생성 안될때
 
@@ -58,5 +61,6 @@ ingress 통해 대시보드 접속완료
 
 
 
+ 
 
 
