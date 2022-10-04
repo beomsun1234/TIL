@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: gateway-web
+spec:
+ replicas: 2
+ selector:
+   matchLabels:
+     app: gateway-web
+ template:
+   metadata:
+     labels:
+       app: gateway-web
+   spec:
+     containers:
+     - name: gateway-web
+       image: beomsun22/k8s-gate-v2
+       ports:
+       - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: gateway-web
+spec:
+ ports:
+   - port: 80
+     targetPort: 8080
+ selector:
+   app: gateway-web
