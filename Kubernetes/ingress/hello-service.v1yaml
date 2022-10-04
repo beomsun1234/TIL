@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-test
+  template:
+    metadata:
+      labels:
+        app: web-test
+    spec:
+      containers:
+        - name: web-test
+          image: beomsun22/web-test
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: web-test
+spec:
+ ports:
+   - port: 80
+     targetPort: 8080
+ selector:
+   app: web-test
