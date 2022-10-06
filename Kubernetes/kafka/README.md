@@ -1,4 +1,33 @@
-# 카프카(Kafka) 설치
+# kafka
+
+topic = pbs
+
+## POD
+![카프카2](https://user-images.githubusercontent.com/68090443/194305914-1e36e2e7-9945-4829-ae56-85191b599768.PNG)
+
+## Service
+
+![카프카3](https://user-images.githubusercontent.com/68090443/194305924-6c6594d3-2e6a-49f7-b58c-e62829eb5a8a.PNG)
+
+
+## 카프카 web
+
+https://beomsun.kro.kr/kafka-service/api/v1/kafka 해당 도메인으로 get요청시 kafka producer(토픽=pbs)로 message 메시지 전송
+
+![카프카 전송](https://user-images.githubusercontent.com/68090443/194304729-e78b3590-1358-4dcc-bf6e-570bb7e13515.PNG)
+
+
+### kafka dns
+
+[kafka 서비스명].kafka-headless.[네임스페이스명].svc.cluster.local:9092
+
+ex)
+    
+        kafka-console-consumer.sh --bootstrap-server kafka-0.kafka-headless.default.svc.cluster.local:9092 --topic pbs
+
+----
+
+#카프카(Kafka) 설치
 
 쿠버네티스에 helem으로 카프카를 설치해보자!
 
@@ -28,7 +57,7 @@ kafka_zookeeper_volume.yaml
       labels:
         app: kafka-pv
     spec:
-      storageClassName: "kafka"
+      storageClassName: ""
       accessModes:
         - ReadWriteOnce
       hostPath:
@@ -45,7 +74,7 @@ kafka_zookeeper_volume.yaml
       labels:
         app: zoo-pv
     spec:
-      storageClassName: "zookeeper"
+      storageClassName: ""
       accessModes:
         - ReadWriteOnce
       hostPath:
@@ -60,7 +89,7 @@ kafka_zookeeper_volume.yaml
     metadata:
       name: kafka-pvc
     spec:
-      storageClassName: "kafka"
+      storageClassName: ""
       accessModes:
         - ReadWriteOnce
       resources:
@@ -74,7 +103,7 @@ kafka_zookeeper_volume.yaml
     metadata:
       name: zookeeper-pvc
     spec:
-      storageClassName: "zookeeper"
+      storageClassName: ""
       accessModes:
         - ReadWriteOnce
       resources:
@@ -132,6 +161,8 @@ helm install
 
     kafka-0.kafka-headless.default.svc.cluster.local:9092
 
+----
+
 ## 트러블슈팅
 
 pv,pvc를 직접 설정해주지 않으면 bitnami/kafka 설치시 기본으로 생성된 pvc가 pending 상태를 계속 유지하면 kafka와 zookeeper pod도 pending로 머물러 있는다. pv와 pvc를 직접 생성해주고 values.yaml에 kafka와 zookeepr가 내가 만든 볼륨을 사용할 수 있도록 설정해주면서 문제를 해결할 수 있었습니다.
@@ -146,12 +177,47 @@ pv의 hostPath 권한 문제였다.. kafka와 zookeeper 가 돌아가고있는 �
 
 다른 방법을 좀 더 찾아보니 helm install시 
 
-    --set volumePermissions.enabled=true --set volumePermissions.enabled=true
+    --set volumePermissions.enabled=true 
     
 위 부분을 추가해주므로 해결할 수 있었다.
 
 
-    helm install kafka -f values.yaml  bitnami/kafka --set volumePermissions.enabled=true --set volumePermissions.enabled=true
+    helm install kafka -f values.yaml  bitnami/kafka --set volumePermissions.enabled=true 
+
+###  Warning  FailedScheduling  58s (x8 over 9m54s)  default-scheduler  0/3 nodes are available: 3 pod has unbound immediate PersistentVolumeClaims.
+
+helm으로 kafka install시 pvc관련 오류로 zookeeper pod가 pending 상태로 지속됨.. kubectl describe 명령어로 확인한 결과 위와 같이 에러가 발생했다. 원인은 PVC와 PV의 연결을 PVC에 selector를 통해서 연결을 했는데  StorageClass로 찾고 있었고 StorageClass또한 존재하지 않아서 발생했다. 아래 내용으로 수정하니 문제를 해결할 수 있었다.
+
+    storageClassName: ""
+
+zookeeper.yaml
+
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: zoo-pv
+      labels:
+        app: zoo-pv
+    spec:
+      storageClassName: ""
+      accessModes:
+        - ReadWriteOnce
+      hostPath:
+        path: "/mnt/zoo"
+      capacity:
+        storage: 2Gi
 
 
+    ---
 
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: zookeeper-pvc
+    spec:
+      storageClassName: ""
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
