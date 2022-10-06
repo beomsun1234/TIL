@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+       - beombeom.kro.kr
+      secretName: beom-tls-v2
+  rules:
+  - host: beombeom.kro.kr
+    http:
+       paths:
+        - path: /v1
+          pathType: Prefix
+          backend:
+            service:
+              name: svc-web
+              port:
+                number: 8080
+        - path: /kafka-service(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: kafka-web
+              port:
+                number: 8080
