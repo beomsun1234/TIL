@@ -1,7 +1,5 @@
 # kafka
 
-topic = pbs
-
 ## POD
 ![카프카2](https://user-images.githubusercontent.com/68090443/194305914-1e36e2e7-9945-4829-ae56-85191b599768.PNG)
 
@@ -12,9 +10,22 @@ topic = pbs
 
 ## 카프카 web
 
-https://beomsun.kro.kr/kafka-service/api/v1/kafka 해당 도메인으로 get요청시 kafka producer(토픽=pbs)로 message 메시지 전송
-
+ 
 ![카프카 전송](https://user-images.githubusercontent.com/68090443/194304729-e78b3590-1358-4dcc-bf6e-570bb7e13515.PNG)
+
+
+        https://beomsun.kro.kr/kafka-service/api/v1/kafka 로 GET 요청시 kafka producer(토픽=pbs)로 message 메시지 전송
+
+
+#### 카프카 web - application.yaml 설정
+
+    kafka:
+      host: kafka-0.kafka-headless.default.svc.cluster.local:9092
+      
+      # host: [kafka 서비스명].kafka-headless.[네임스페이스명].svc.cluster.local:9092
+
+
+
 
 
 ### kafka dns
@@ -27,7 +38,7 @@ ex)
 
 ----
 
-#카프카(Kafka) 설치
+# 카프카(Kafka) 설치
 
 쿠버네티스에 helem으로 카프카를 설치해보자!
 
