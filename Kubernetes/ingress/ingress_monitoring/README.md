@@ -2,7 +2,7 @@
 
 Prometheus and Grafana
 
-[쿠버네티스 모니터링 가이드](https://kubernetes.github.io/ingress-nginx/user-guide/monitoring/)
+[쿠버네티스 ingress 모니터링 가이드](https://kubernetes.github.io/ingress-nginx/user-guide/monitoring/)
 
 
 ## Prometheus
