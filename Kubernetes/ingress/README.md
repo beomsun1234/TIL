@@ -5,8 +5,15 @@
 ![쿠버네티스 아키텍쳐](https://user-images.githubusercontent.com/68090443/192749410-9f7f99b8-01c9-4978-aac1-d3c8d82bf66d.PNG)
 
 
+현재 프록시 서버 dns를 beomsun.kro.kr로 변경했다.(ingress 모니터링 서비스 프록시 서버에서 beomseon.kro.kr 사용)
+
+
+
 
 ## 트래픽 부하분산
+
+
+        for i in {1..100}; do curl -k https://beomsun.kro.kr/v1 ; done | sort | uniq -c | sort -nr
 
 
 ![ingress 부하분산](https://user-images.githubusercontent.com/68090443/194597758-3dd8fe18-f2f5-416f-a460-aaf46a6fa14a.PNG)
