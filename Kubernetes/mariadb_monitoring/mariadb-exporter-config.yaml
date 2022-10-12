@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-exporter-config
+  namespace: default
+data:
+  HOST_VALUE: root:1234@(mariadb.default.svc.cluster.local:3306)/
