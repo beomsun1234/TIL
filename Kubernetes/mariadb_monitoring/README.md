@@ -1,6 +1,9 @@
 # mariadb_monitoring
 
-[사진]
+![마리아디비모니터링](https://user-images.githubusercontent.com/68090443/195563644-9a35e6a9-d05e-4870-b7df-535c5783dfc4.PNG)
+
+
+![마리아디비모니털링2](https://user-images.githubusercontent.com/68090443/195563660-5bfc6bc3-35f7-43f8-883b-e1f7bbc15966.PNG)
 
 
 ## mariadb exporter
