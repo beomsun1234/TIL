@@ -198,4 +198,50 @@ node port로 접속해보자
 # Grafana install
 
 
+    helm repo add grafana https://grafana.github.io/helm-charts
 
+
+beomseon.kro.kr 이라는 reverse proxy 서버를 두고 있기에 values를 아래 처럼 수정해야한다.
+
+values.yaml
+
+
+    grafana:
+      enabled: true
+      # set pspUseAppArmor to false to fix Grafana pod Init errors
+      rbac:
+        pspUseAppArmor: false
+      grafana.ini:
+        server:
+          domain: beomseon.kro.kr
+          #root_url: "%(protocol)s://%(domain)s/"
+          root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
+          serve_from_sub_path: true
+
+      ## Deploy default dashboards.
+      ##
+    service:
+      enabled: true
+      #type: ClusterIP
+      type: NodePort
+      port: 80
+      targetPort: 3000
+      nodePort: 31030
+        # targetPort: 4181 To be used with a proxy extraContainer
+      annotations: {}
+      labels: {}
+      portName: service
+
+## 실행
+
+    helm install grafana grafana/grafana -f value.yaml
+
+## reverse proxy 서버 nginx 수정
+
+![그라파나설정](https://user-images.githubusercontent.com/68090443/195823175-e13d7762-a69b-4825-b3af-178c42e3fcc0.PNG)
+
+사진 처럼
+
+    proxy_set_header Host $http_host;
+    
+를 설정해주어야 grafana cors관련 에러가 발생하지 않는다.
