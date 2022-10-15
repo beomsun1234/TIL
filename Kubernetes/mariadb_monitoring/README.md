@@ -1,4 +1,4 @@
-# mariadb_monitoring
+# Mariadb Monitoring
 
 ![마리아디비모니터링](https://user-images.githubusercontent.com/68090443/195563644-9a35e6a9-d05e-4870-b7df-535c5783dfc4.PNG)
 
