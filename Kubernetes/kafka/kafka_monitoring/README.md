@@ -16,8 +16,6 @@
 
 
 
-
-
 # 트러블슈팅
 
 worker node 1 에 cpu 사용량이 100이 넘어서 뻗어서 worker node 1에서 돌아가는 pod들이 모두 terminating 상태가 되었다. worker node 1를 정지했다 재 시작 해야하니 카프카나 다른 앱들은 정상적으로 pod들이 재시작 되었다.. 하지만 kafka_exporter pod가 재시작되지 않아서 prometheus에서 카프카 메트릭을 수집하지 못해서 그라파나 대시보드에서 모든 데이터가 no가 되었다.. 
