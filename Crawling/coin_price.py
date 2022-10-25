@@ -1,8 +1,11 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+import ssl
 
 def getCoinInfo():
-
+    
+    ssl._create_default_https_context = ssl._create_unverified_context
+    
     current_url = 'https://kr.investing.com/crypto/'
     headers = {'User-Agent':'Mozilla/5.0'}
     req = Request(current_url, headers = headers)
