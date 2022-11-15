@@ -34,6 +34,17 @@
 
 
 
+@GrpcAdive로 선언된 클래스들을 가져와서 해당 클래스에 메소들 중에 @GrpcExceptionHandler 붙은 method를 추출해보자!
+
+    
+
+    //@GrpcAdive로 선언된 클래스 가져오기
+    Map<String, Object> annotatedBeans = applicationContext.getBeansWithAnnotation(GrpcAdvice.class);
+    
+    annotatedMethods = findAnnotatedMethods();
+    
+    
+    
 
 
 
