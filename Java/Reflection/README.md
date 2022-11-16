@@ -38,6 +38,7 @@
 
     
 
+
     //@GrpcAdive로 선언된 클래스 가져오기
     Map<String, Object> annotatedBeans = applicationContext.getBeansWithAnnotation(GrpcAdvice.class);
     
