@@ -1,7 +1,13 @@
 # istio 실습(gcp vm)
 
 ## kiali dashboard
-![istio3](https://user-images.githubusercontent.com/68090443/202740410-f0816c56-9fdc-40a4-a4ed-eab7c94e1e21.PNG)
+
+![istio4](https://user-images.githubusercontent.com/68090443/202741035-a3a139ad-059d-4e37-8e78-1afcb65d97d9.PNG)
+
+## istio-system
+
+![image](https://user-images.githubusercontent.com/68090443/202741170-619052f2-6d87-4f53-94fe-fdd9f824daa1.png)
+
 
 
 ![istio](https://user-images.githubusercontent.com/68090443/202699316-9c77e2db-6326-4bd0-81c9-928e113f475d.PNG)
