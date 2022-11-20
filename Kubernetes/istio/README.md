@@ -17,3 +17,11 @@
 
 
 
+## TLS 적용
+
+![istio8](https://user-images.githubusercontent.com/68090443/202881464-81781fe8-933b-4b80-88c4-a4f51b41f07f.PNG)
+
+![istio10](https://user-images.githubusercontent.com/68090443/202881445-0fbb6f35-cc2f-407a-a949-edd1b35905a2.PNG)
+
+
+![istio7](https://user-images.githubusercontent.com/68090443/202881490-c200a35f-8b6a-412f-86ba-dd26da652129.PNG)
