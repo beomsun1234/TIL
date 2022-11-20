@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: bookinfo-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "beombeom.kro.kr"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - "beombeom.kro.kr"
+    tls:
+      mode: SIMPLE
+      credentialName: beom-tls-v1
