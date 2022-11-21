@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: orderservice-safe
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: orderservice
+ template:
+   metadata:
+     labels:
+       app: orderservice
+       version: safe
+   spec:
+     containers:
+     - name: order-svc
+       image: beomsun22/order-svc
+       ports:
+       - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: orderservice-risky
+spec:
+ replicas:
+ selector:
+   matchLabels:
+     app: orderservice
+ template:
+   metadata:
+     labels:
+       app: orderservice
+       version: risky
+   spec:
+     containers:
+     - name: order-svc
+       image: beomsun22/order-svc
+       ports:
+       - containerPort: 8080
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+ name: orderservice
+spec:
+ ports:
+   - port: 8080
+     targetPort: 8080
+ selector:
+   app: orderservice
