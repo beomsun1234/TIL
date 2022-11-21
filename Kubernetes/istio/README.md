@@ -25,3 +25,7 @@
 
 
 ![istio7](https://user-images.githubusercontent.com/68090443/202881490-c200a35f-8b6a-412f-86ba-dd26da652129.PNG)
+
+## GRPC 통신
+
+![istio11](https://user-images.githubusercontent.com/68090443/203010691-635fbf4c-0640-411a-932d-86e8d020d4a6.PNG)
