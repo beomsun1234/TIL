@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: grpc-book-server-safe
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: grpc-book-server
+ template:
+   metadata:
+     labels:
+       app: grpc-book-server
+       version: safe
+   spec:
+     containers:
+     - name: grpc-book-server
+       image: beomsun22/book-grpc-svc
+       ports:
+       - containerPort: 9096
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: grpc-book-server-risky
+spec:
+ replicas:
+ selector:
+   matchLabels:
+     app: grpc-book-server
+ template:
+   metadata:
+     labels:
+       app: grpc-book-server
+       version: risky
+   spec:
+     containers:
+     - name: grpc-book-server
+       image: beomsun22/book-grpc-svc
+       ports:
+       - containerPort: 9096
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+ name: grpc-book-server
+spec:
+ ports:
+   - port: 9096
+     targetPort: 9096
+ selector:
+   app: grpc-book-server
