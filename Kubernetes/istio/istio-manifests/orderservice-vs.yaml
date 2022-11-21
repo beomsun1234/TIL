@@ -1,0 +1,41 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: orderservice-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - bookinfo-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /order
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: orderservice
+        subset: safe
+      weight: 90
+    - destination:
+        port:
+          number: 8080
+        host: orderservice
+        subset: risky
+      weight: 10
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: orderservice-rule
+spec:
+  host: orderservice
+  subsets:
+    - labels:
+        version: safe
+      name: safe
+    - labels:
+        version: risky
+      name: risky
