@@ -138,8 +138,8 @@ hello-vs.yaml
             host: svc-web
 
 
+## 최종 gcp LB
 
-
-
+![image](https://user-images.githubusercontent.com/68090443/203522980-2e74ff75-8aed-4fc1-8925-51731011f9ff.png)
 
 
