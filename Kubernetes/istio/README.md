@@ -1,5 +1,11 @@
 # istio 실습(gcp vm)
 
+## 실습한 아키텍쳐
+
+![istio12](https://user-images.githubusercontent.com/68090443/203512637-63a86d26-35c8-46b3-9e80-ff87d885bf72.PNG)
+
+
+
 ## kiali dashboard
 
 ![istio4](https://user-images.githubusercontent.com/68090443/202741035-a3a139ad-059d-4e37-8e78-1afcb65d97d9.PNG)
