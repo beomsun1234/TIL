@@ -1,0 +1,40 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: orderservice-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - default-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /order
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: orderservice
+        subset: stable
+      weight: 80
+    - destination:
+        port:
+          number: 8080
+        host: orderservice
+        subset: new
+      weight: 20
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: orderservice-rule
+spec:
+  host: orderservice
+  subsets:
+    - labels:
+        version: v1
+      name: stable
+    - labels:
+        version: v2
+      name: new
