@@ -54,37 +54,60 @@ code
                         .replace("-----END PRIVATE KEY-----", "");
 
             }
-            @GetMapping("/jwk")
+            
+            public String createJwt() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException{
+            
+                RSAPublicKey pubKey = getRSAPulicKey();
+                RSAPrivateKey privateKey = getRSAPrivateKey();
+
+                Algorithm algorithm = Algorithm.RSA256(pubKey,privateKey);
+                return JWT.create().withSubject("test").withClaim("name", "park").withIssuer("ISSUER").sign(algorithm);
+            
+            }
+            
             public String getJwk() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-
-
-
-
-                Map<String, Object> values = new HashMap<>();
-
+                
+        
                 //String sign = JWT.create().sign(Algorithm.RSA256(rsaPublicKey));
-
-
         //        JWK jwk = new RSAKey.Builder(rsaPublicKey)
         //                .privateKey(privKey)
         //                .keyUse(KeyUse.SIGNATURE)
         //                .keyID(UUID.randomUUID().toString()).
         //                build();
         //        System.out.println(jwk);
-
-
-
         //        List<Object> test = new ArrayList<>();
         //        test.add(jwk.getRequiredParams());
-         //       values.put("keys",test); // getAlgorithm() returns kty not algorithm
+                RSAPublicKey pubKey = getRSAPulicKey();
 
-                Algorithm algorithm = Algorithm.RSA256(getRSAPulicKey(), getRSAPrivateKey());
-                String sign = JWT.create().withSubject("test").withClaim("name", "park").withIssuer("ISSUER").sign(algorithm);
+                JWKDto jwkDto = JWKDto.builder()
+                        .e(java.util.Base64.getUrlEncoder().encodeToString(pubKey.getPublicExponent().toByteArray()))
+                        .kty(pubKey.getAlgorithm())
+                        .n(java.util.Base64.getUrlEncoder().encodeToString(pubKey.getModulus().toByteArray()))
+                        .build();
 
-                System.out.println(sign);
-
-                return sign;
+             
+                return JWKRetFormat.builder().jwkDto(jwkDto).build();;
             }
-
-
+            
+            @Getter
+            public static class JWKRetFormat{
+                private List<JWKDto> key = new ArrayList();
+                @Builder
+                public JWKRetFormat(JWKDto jwkDto){
+                    this.key = Collections.singletonList(jwkDto);
+                }
+            }
+            @Getter
+            public static class JWKDto{
+                private String e;
+                private String kty;
+                private String n;
+                
+                @Builder
+                public JWKDto(String e, String kty, String n){
+                    this.e = e;
+                    this.kty = kty;
+                    this.n  = n;
+                }
+            }
         }
