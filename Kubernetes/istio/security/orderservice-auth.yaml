@@ -1,0 +1,28 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: "order-jwt-request-auth"
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: orderservice
+  jwtRules:
+  - issuer: "ISSUER"
+    jwks: |
+      {"keys":[{"e":"AQAB","kty":"RSA","n":"ALzzw1zcCT9Zqwqnc75Iio-D9J5_hcRm-MNjbYYHN8S0OVI4pdJ2brwED95R_FoLhI1ORDuMq1_Zfj7BgeC6oW-fAz6ypP3zHLQ6a6KdXZ5q-45pq6LWVifDrNH4yCXo2rSopdq-8I_HVH1h4xsJJPZySonRJk3Vqm0G-B2lJthvV2DZjCc5OCxxMbBr9PhqsPHQT6wGBR7X1BqVFAjVAoXp2-QLS6MbvXjazqf5fhfo6fvEbFEf4Dbu2BSN-ikMfoyR57rXJZU-9QpVaifrtO3Ts_v4PnRYZtbDPRQRdlw4azxen4VHzrXx-GaLynFbHILXLfUrAp9pgzsrZ318bq0="}]}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: order-auth-policy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: orderservice
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
