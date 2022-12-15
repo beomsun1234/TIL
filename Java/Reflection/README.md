@@ -100,8 +100,20 @@
     }
     
     
-@GrpcAdivce가 선언된 클래스 안에  @GrpcExceptionHandler가 선언된 메소드의 리턴 값 들을 확인해 볼 수 있었다.
+@GrpcAdivce가 선언된 클래스 안에  @GrpcExceptionHandler가 선언된 메소드의 리턴 값 들을 확인해 볼 수 있었다. 아래 코드는 @GrpcAdivce, @GrpcExceptionHandler가 선언된  클래스이다.
 
 
+    @GrpcAdvice
+    public class GrpcAnoTest {
 
+        @GrpcExceptionHandler(NoSuchElementException.class)
+        public Status noSuchElementException(){
+            return Status.NOT_FOUND.withDescription("test");
+        }
+
+        @GrpcExceptionHandler(IllegalArgumentException.class)
+        public StatusRuntimeException illegalArgumentException(){
+            return Status.INVALID_ARGUMENT.withDescription("test").asRuntimeException();
+        }
+    }
 
