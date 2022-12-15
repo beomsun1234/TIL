@@ -20,15 +20,6 @@
     @Retention(RetentionPolicy.RUNTIME)
     public @interface GrpcExceptionHandler {
 
-        /**
-         * Exceptions handled by the annotated method.
-         * <p>
-         * If empty, will default to any exceptions listed in the method argument list.
-         * <p>
-         * <b>Note:</b> When exception types are set within value, they are prioritized in mapping the exceptions over
-         * listed method arguments. And in case method arguments are provided, they <b>must</b> match the types declared
-         * with this value.
-         */
         Class<? extends Throwable>[] value() default {};
     }
 
@@ -37,15 +28,79 @@
 @GrpcAdive로 선언된 클래스들을 가져와서 해당 클래스에 메소들 중에 @GrpcExceptionHandler 붙은 method를 추출해보자!
 
     
+    
+    //@GrpcAdive 어노테이션으로 선언된 오브젝트
+    private Map<String, Object> annotatedBeans;
+    
+    //@GrpcAdivce가 선언된 클래스 안에  @GrpcExceptionHandler가 선언된 메소드
+    private Set<Method> annotatedMethods;
+    
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        
+        //@GrpcAdive 어노테이션으로 선언된 오브젝트 가져오기
+        Map<String, Object> annotatedBeans = applicationContext.getBeansWithAnnotation(GrpcAdvice.class);
+        
+        
+        annotatedBeans.values().forEach(value-> log.info(String.valueOf(value.getClass())));
+        annotatedBeans.forEach(
+                (key, value) -> log.debug("Found gRPC advice: " + key + ", class: " + value.getClass().getName()));
+
+        ///@GrpcAdive 어노테이션으로 선언된 오브젝트의 클래스에 @GrpcExceptionHandler 어노테이션이 붙은 method 추출, @GrpcExceptionHandler 타겟 타입은 메소드이다.
+        annotatedMethods = annotatedBeans
+                .values()
+                .stream()
+                .map(obj -> obj.getClass())
+                .map(objClass -> findAnnotatedMethods(objClass))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+    }
+    
+        
+    //@GrpcAdive 어노테이션으로 선언된 오브젝트의 클래스에 @GrpcExceptionHandler 어노테이션이 붙은 method 추출
+    private Set<Method> findAnnotatedMethods(final Class<?> clazz) {
+        return MethodIntrospector.selectMethods(clazz, new ReflectionUtils.MethodFilter() {
+            @Override
+            public boolean matches(Method method) {
+                return AnnotatedElementUtils.hasAnnotation(method,GrpcExceptionHandler.class);
+            }
+        });
+    }
 
 
-    //@GrpcAdive로 선언된 클래스 가져오기
-    Map<String, Object> annotatedBeans = applicationContext.getBeansWithAnnotation(GrpcAdvice.class);
+    //@GrpcExceptionHandler가 선언된 메소드들를 invoke 해서 return 타입을 가져오자
+    public void getObject() {
+        Assert.state(annotatedMethods != null, "@GrpcExceptionHandler annotation scanning failed.");
+        
+        // annotatedMethods = @GrpcExceptionHandler 선언된 메소들들
+        for (Method annotatedMethod : annotatedMethods) {            
+            GrpcExceptionHandler annotation = annotatedMethod.getDeclaredAnnotation(GrpcExceptionHandler.class);
+            
+            Object newInstance = annotatedMethod.getDeclaringClass().newInstance();
+            try {
+                Object invoke = annotatedMethod.invoke(newInstance);
+                
+                // 해당 메소드의 return 타입이 Status면
+                if (invoke instanceof Status){
+                    // 해당 메소드를 수행하고 리턴된 코드를 출력
+                    log.info(String.valueOf(((Status) invoke).getCode()));
+                
+                // 해당 메소드의 retun 타입이 StatusRuntimeException 이면
+                } else if (invoke instanceof StatusRuntimeException) {
+                    // 해당 메소드를 수행하고 리턴된 코드를 출력
+                    log.info(String.valueOf(((StatusRuntimeException) invoke).getStatus().getCode()));
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }    
+        }
+    }
     
-    annotatedMethods = findAnnotatedMethods();
     
-    
-    
+@GrpcAdivce가 선언된 클래스 안에  @GrpcExceptionHandler가 선언된 메소드의 리턴 값 들을 확인해 볼 수 있었다.
 
 
 
