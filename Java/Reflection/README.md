@@ -16,13 +16,12 @@
 
 ## @GrpcExceptionHandler
 
+
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     public @interface GrpcExceptionHandler {
-
-        Class<? extends Throwable>[] value() default {};
+        Class<? extends Throwable> value();
     }
-
 
 
 @GrpcAdive로 선언된 클래스들을 가져와서 해당 클래스에 메소들 중에 @GrpcExceptionHandler 붙은 method를 추출해보자!
@@ -117,3 +116,52 @@
         }
     }
 
+@GrpcExceptionHandler 어노테이션의 value인 error class를 가져와 비교해보자!
+
+
+    public void get throws InstantiationException, IllegalAccessException {
+        Assert.state(annotatedMethods != null, "@GrpcExceptionHandler annotation scanning failed.");
+  
+        for (Method annotatedMethod : annotatedMethods) {
+            
+            //해당 메소드에서 @GrpcExceptionHandler 어노테이션을 가져온다.
+            GrpcExceptionHandler annotation = annotatedMethod.getDeclaredAnnotation(GrpcExceptionHandler.class);
+            Assert.notNull(annotation, "@GrpcExceptionHandler annotation not found.");
+            
+            
+            //@GrpcExceptionHandler 어노테이션의 value인 error class를 가져온다.
+            Class<? extends Throwable> error = annotation.value();
+            
+            Object newInstance = annotatedMethod.getDeclaringClass().newInstance();
+
+            try {
+                Object invoke = annotatedMethod.invoke(newInstance);
+                if (invoke instanceof Status){
+                    
+                    //해당 메소드의 @GrpcExceptionHandler 어노테이션에 value에 IllegalArgumentException.class 가 있는지 확인
+                    if (!error.equals(IllegalArgumentException.class)) {
+                        log.info("IllegalArgumentException 에러는 없다.");
+                        continue;
+                    }
+                    log.info("IllegalArgumentException 에러가 있다.");
+                    log.info(String.valueOf(((Status) invoke).getCode()));
+                } else if (invoke instanceof StatusRuntimeException) {
+                
+                    //해당 메소드의 @GrpcExceptionHandler 어노테이션에 value에 IllegalArgumentException.class 가 있는지 확인
+                    if (!error.equals(IllegalArgumentException.class)) {
+                        log.info("IllegalArgumentException 에러는 없다.");
+                        continue;
+                    }
+                    log.info("IllegalArgumentException 에러가 있다.");
+                    log.info(String.valueOf(((StatusRuntimeException) invoke).getStatus().getCode()));
+                }
+
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+Map 을 만들어서 key를 error class로 설정하고 value를 구성해주면 error를 컨트롤 할 수 있다. 
