@@ -165,3 +165,4 @@
     }
 
 Map 을 만들어서 key를 error class로 설정하고 value를 구성해주면 error를 컨트롤 할 수 있다. 
+
