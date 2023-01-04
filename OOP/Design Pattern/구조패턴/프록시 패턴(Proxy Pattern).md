@@ -21,7 +21,7 @@
 
 프록시 패턴은 클라이언트에게 접근에 대한 컨트롤을 제공하여 위와 같은 문제를 해결합니다.
 
-ex) 
+## ex) 1
 
 명령을 실행하는 CommandExecutor 인터페이스 정의
 
@@ -100,9 +100,93 @@ Client
 
 프록시 패턴은 이렇듯 어떤 객체에 대하여 접근할 때에 Wrapper Class를 두어 접근에 대한 통제(Control access)를 위해 사용합니다.
 
+## ex) 특정 주소에 접근 금지
+
+
+InternetAccess 
+
+
+    public interface InternetAccess {  
+        public void connectTo() throws Exception;
+    }  
+    
+    
+InternetAccessService
+
+
+    public class InternetAccessService implements InternetAccess {  
+        private String siteAddress;  
+        
+        public InternetAccessService(String siteAddress) {  
+            this.siteAddress = siteAddress;  
+        }  
+  
+        @Override  
+        public void connectTo() {  
+            System.out.println("Connecting to "+ this.siteAddress);  
+        }  
+    }  
+    
+    
+ProxyInternetAccessService
+
+
+    public class ProxyInternetAccessService implements InternetAccess {  
+        private String siteAddress;  
+        
+        private InternetAccessService  realInternetAccessService;  
+        
+        private static List<String> bannedSites;
+        
+        public ProxyInternetAccessService(String siteAddress) {
+            this.siteAddress = siteAddress
+        }
+        
+        static
+        {
+            bannedSites = new ArrayList<String>();
+            bannedSites.add("abc.com");
+            bannedSites.add("def.com");
+            bannedSites.add("ijk.com");
+            bannedSites.add("lnm.com");
+        }
+        
+        @Override  
+        public void connectTo() {  
+            if(bannedSites.contains(siteAddress.toLowerCase())) {
+                throw new Exception("Access Denied");
+            }
+            realInternetAccessService = new InternetAccessService(this.siteAddress)
+            realInternetAccessService.connectTo()
+        }  
+    }      
+    
+    
+Client
+
+    public class Client
+    {
+        public static void main (String[] args)
+        {
+            Internet internet = new ProxyInternetAccessService("beomsun.kro.kr");
+            Internet internet2 = new ProxyInternetAccessService("abc.com");
+            try
+            {
+                internet.connectTo()
+                internet2.connectTo()
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    
 
 ## 참고
 
 - https://www.digitalocean.com/community/tutorials/proxy-design-pattern
 - https://www.geeksforgeeks.org/proxy-design-pattern/
 - https://readystory.tistory.com/m/132
+- https://www.geeksforgeeks.org/proxy-design-pattern/
+- https://www.javatpoint.com/proxy-pattern
