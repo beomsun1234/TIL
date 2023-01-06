@@ -14,12 +14,13 @@ UML diagram
 ## code
 
 Color
-
+        
 
     public interface Color {
 
       public void applyColor();
     }
+
 
 RedColor 
 
@@ -34,14 +35,20 @@ RedColor
 
 GreenColor 
 
+
+
     public class GreenColor implements Color{
 
       public void applyColor(){
         System.out.println("green.");
       }
     }
-  
+
+
+
 Shape 
+
+
 
     public abstract class Shape {
       //Composition - implementor
@@ -55,7 +62,11 @@ Shape
       abstract public void applyColor();
     }
 
+
+
 Triangle
+    
+    
     
     public class Triangle extends Shape{
 
@@ -70,8 +81,12 @@ Triangle
       } 
 
     }   
- 
+
+
+
 Pentagon
+
+
 
     public class Pentagon extends Shape{
 
@@ -87,16 +102,16 @@ Pentagon
 
     } 
 
+
 Client
 
 
-  public class Client {
+      public class Client {
+        public static void main(String[] args) {
+          Shape tri = new Triangle(new RedColor());
+          tri.applyColor();
 
-    public static void main(String[] args) {
-      Shape tri = new Triangle(new RedColor());
-      tri.applyColor();
-
-      Shape pent = new Pentagon(new GreenColor());
-      pent.applyColor();
-    }
-  }
+          Shape pent = new Pentagon(new GreenColor());
+          pent.applyColor();
+        }
+      }
