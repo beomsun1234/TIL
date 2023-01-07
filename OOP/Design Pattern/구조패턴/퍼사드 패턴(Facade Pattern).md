@@ -12,6 +12,7 @@ Facade는 "건물의 정면"을 의미하는 단어로 어떤 소프트웨어의
     
 간단한 예를 들어보겠습니다! 
 
+## ex1)
 집의 가전제품들을 자동으로 제어하는 자동화 장치를 생각해보자! 
 
 자동화 장치는 TV, Lights, AirConditioner을 제어합니다.
@@ -124,6 +125,9 @@ Client
 또한 쇼핑몰에서 주문할 때 인벤토리, 페이, 배송 등등 여러 프로세스가 존재하고 상호작용합니다. 여기에도 퍼사드 패턴을 적용하여 상호작용을 단순화 할 수 있습니다.
 
 [사진](https://springframework.guru/gang-of-four-design-patterns/facade-pattern/)
+
+
+## ex2) 
 
 
 ## 퍼사드 패턴의 중요 포인트!
