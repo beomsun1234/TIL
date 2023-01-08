@@ -1,6 +1,9 @@
 # 브릿지 패턴 (Bridge Pattern)
 
 
+
+
+
 ![image](https://user-images.githubusercontent.com/68090443/211006915-30f8b50d-761c-4665-ba2e-14dbb4bd346e.png)
 
 
