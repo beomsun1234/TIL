@@ -5,6 +5,8 @@
 이 패턴은 하나의 객체(Subject)가 다른 객체(Observer)에게 변경 사항을 알려주는 것을 말합니다.
 
 
+
+
 ## ex 1)
 
     interface Subject {
