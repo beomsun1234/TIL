@@ -5,6 +5,7 @@ u: 위쪽으로 한 칸 이동
 d: 아래쪽으로 한 칸 이동
 """
 
+
 import sys
 sys.setrecursionlimit(10000)
 dx = [1,0,0,-1]
@@ -91,6 +92,7 @@ def searchMaze(n,m,x,y,r,c,picks):
     
     if next_x == c and next_y == r:
         return True
+
             
     return False       
             
@@ -122,3 +124,4 @@ def solution(n, m, x, y, r, c, k):
     else:
         answer = ret[0]
     return answer
+
