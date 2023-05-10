@@ -54,6 +54,7 @@ ooo기업은 장비를 1000000원에 구매했다면 이 하나의 거래를 둘
 
 
 
+
 ## rf
 
 http://contents.kocw.or.kr/KOCW/document/2015/pusan/hongkelldong/5.pdf
