@@ -1,4 +1,6 @@
 """
+
+
 # 시간초과 ;; 50점짜리 코드
 def solution(dice):
     answer = []
